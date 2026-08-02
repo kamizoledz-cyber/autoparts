@@ -1,6 +1,7 @@
 const app = document.getElementById("app");
 
 app.innerHTML = `
+
 <header class="header">
 
     <div class="logo">
@@ -18,6 +19,29 @@ app.innerHTML = `
 </header>
 
 <section class="hero">
+
+    <h1>
+        Find Any Auto Part Worldwide
+    </h1>
+
+    <p>
+        OEM Numbers • Cross References • Tire Calculator • Global Brands
+    </p>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            placeholder="Search OEM Number, Part Name or Brand..."
+        >
+
+        <button>
+            🔍 Search
+        </button>
+
+    </div>
+
+</section>
 
 <section class="brands">
 
@@ -39,27 +63,5 @@ app.innerHTML = `
     </div>
 
 </section>
-    <h1>
-        Find Any Auto Part Worldwide
-    </h1>
 
-    <p>
-        OEM Numbers • Cross References • Tire Calculator • Global Brands
-    </p>
-
-    
-    <div class="search-box">
-
-    <input
-        type="text"
-        placeholder="Search OEM Number, Part Name or Brand..."
-    >
-
-    <button>
-        🔍 Search
-    </button>
-
-</div>
-
-</section>
 `;
