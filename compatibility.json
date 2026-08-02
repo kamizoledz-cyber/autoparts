@@ -1,1 +1,18 @@
 
+[
+  {
+    "vehicleId":1,
+    "partId":1,
+    "note":"Original equipment match"
+  },
+  {
+    "vehicleId":2,
+    "partId":2,
+    "note":"Compatible replacement"
+  },
+  {
+    "vehicleId":3,
+    "partId":3,
+    "note":"Original equipment match"
+  }
+]
