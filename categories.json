@@ -1,0 +1,27 @@
+[
+  {
+    "id":1,
+    "name":"Engine",
+    "description":"Engine related parts"
+  },
+  {
+    "id":2,
+    "name":"Filtration",
+    "description":"Oil, Air and Fuel filters"
+  },
+  {
+    "id":3,
+    "name":"Brakes",
+    "description":"Brake system components"
+  },
+  {
+    "id":4,
+    "name":"Suspension",
+    "description":"Suspension and steering parts"
+  },
+  {
+    "id":5,
+    "name":"Electrical",
+    "description":"Sensors and electrical components"
+  }
+]
