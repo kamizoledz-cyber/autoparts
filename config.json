@@ -1,1 +1,11 @@
-
+{
+  "name": "PartMatrix",
+  "version": "0.8.1",
+  "description": "Global Auto Parts & Compatibility Platform",
+  "languages": [
+    "EN",
+    "AR",
+    "FR",
+    "ES"
+  ]
+}
