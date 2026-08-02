@@ -1,21 +1,27 @@
-
 const app = document.getElementById("app");
 
 app.innerHTML = `
+
 <header class="header">
-    <div class="logo">
-        🚗 PartMatrix
-        <span>Global Auto Parts & Compatibility Platform</span>
-    </div>
+
+<div class="logo">
+🚗 PartMatrix
+<span>Global Auto Parts & Compatibility Platform</span>
+</div>
+
 </header>
+
 
 <section class="hero">
 
-<h1>Find Any Auto Part Worldwide</h1>
+<h1>
+Find Any Auto Part Worldwide
+</h1>
 
 <p>
 Search Manufacturers, Vehicles, OEM Numbers and Parts
 </p>
+
 
 <div class="search-box">
 
@@ -28,84 +34,120 @@ placeholder="Toyota, Corolla, Oil Filter, OEM Number...">
 
 </div>
 
+
 <div id="results"></div>
 
+
 </section>
+
 `;
+
 
 
 let parts = [];
 let vehicles = [];
 let manufacturers = [];
 let compatibility = [];
+let categories = [];
+
 
 
 Promise.all([
 
-fetch("parts.json").then(res => res.json()),
+fetch("parts.json").then(r => r.json()),
 
-fetch("vehicles.json").then(res => res.json()),
+fetch("vehicles.json").then(r => r.json()),
 
-fetch("manufacturers.json").then(res => res.json()),
+fetch("manufacturers.json").then(r => r.json()),
 
-fetch("compatibility.json").then(res => res.json())
+fetch("compatibility.json").then(r => r.json()),
+
+fetch("categories.json").then(r => r.json())
 
 ])
+
 .then(data => {
 
 parts = data[0];
 vehicles = data[1];
 manufacturers = data[2];
 compatibility = data[3];
+categories = data[4];
 
 });
 
 
 
+function getCategoryName(id){
+
+let category = categories.find(
+item => item.id === id
+);
+
+return category
+? category.name
+: "Uncategorized";
+
+}
+
+
+
 document.getElementById("searchBtn")
-.addEventListener("click", ()=>{
+.addEventListener("click",()=>{
 
 
-let value = document
-.getElementById("searchInput")
+let value =
+document.getElementById("searchInput")
 .value
 .toLowerCase()
 .trim();
 
 
-let box = document.getElementById("results");
+
+let box =
+document.getElementById("results");
+
 
 box.innerHTML = "";
 
 
 
-let manufacturerResults = manufacturers.filter(item =>
+let manufacturerResults =
+manufacturers.filter(item =>
+
 item.name.toLowerCase().includes(value) ||
 item.country.toLowerCase().includes(value)
+
 );
 
 
 
-let vehicleResults = vehicles.filter(item =>
+let vehicleResults =
+vehicles.filter(item =>
+
 item.brand.toLowerCase().includes(value) ||
 item.model.toLowerCase().includes(value) ||
 item.engine.toLowerCase().includes(value)
+
 );
 
 
 
-let partResults = parts.filter(item =>
+let partResults =
+parts.filter(item =>
+
 item.brand.toLowerCase().includes(value) ||
 item.model.toLowerCase().includes(value) ||
 item.part.toLowerCase().includes(value) ||
 item.oem.toLowerCase().includes(value)
+
 );
 
 
 
 manufacturerResults.forEach(item=>{
 
-box.innerHTML += `
+box.innerHTML +=`
 
 <div class="results-card">
 
@@ -114,7 +156,7 @@ box.innerHTML += `
 </h3>
 
 <p>
-🌍 ${item.country}
+🌍 Country: ${item.country}
 </p>
 
 </div>
@@ -122,6 +164,7 @@ box.innerHTML += `
 `;
 
 });
+
 
 
 
@@ -129,16 +172,24 @@ box.innerHTML += `
 vehicleResults.forEach(car=>{
 
 
-let compatibleParts = compatibility
-.filter(link => link.vehicleId === car.id)
-.map(link => 
-parts.find(part => part.id === link.partId)
+let compatibleParts =
+compatibility
+
+.filter(link =>
+link.vehicleId === car.id
 )
+
+.map(link =>
+parts.find(
+part => part.id === link.partId
+)
+)
+
 .filter(Boolean);
 
 
 
-box.innerHTML += `
+box.innerHTML +=`
 
 <div class="results-card">
 
@@ -146,43 +197,63 @@ box.innerHTML += `
 🚗 ${car.brand} ${car.model}
 </h3>
 
+
 <p>
 📅 Year: ${car.year}
 </p>
+
 
 <p>
 ⚙️ Engine: ${car.engine}
 </p>
 
 
+
 <h4>
 🔗 Compatible Parts
 </h4>
 
-${
-compatibleParts.length ?
 
-compatibleParts.map(part => `
+
+${
+compatibleParts.length
+
+?
+
+compatibleParts.map(part=>`
 
 <p>
+
 🔧 ${part.part}
+
 <br>
-OEM: ${part.oem}
+
+📂 Category:
+${getCategoryName(part.categoryId)}
+
+<br>
+
+OEM:
+${part.oem}
+
 </p>
 
 `).join("")
 
 :
 
-"<p>No compatible parts found</p>"
+"<p>No compatible parts</p>"
 
 }
+
+
 
 </div>
 
 `;
 
 });
+
 
 
 
@@ -190,25 +261,39 @@ OEM: ${part.oem}
 partResults.forEach(part=>{
 
 
-box.innerHTML += `
+box.innerHTML +=`
 
 <div class="results-card">
+
 
 <h3>
 🔧 ${part.part}
 </h3>
 
+
 <p>
 🚗 ${part.brand} ${part.model}
 </p>
 
+
 <p>
-📅 Year: ${part.year}
+📅 Year:
+${part.year}
 </p>
 
-<p class="oem-number">
-OEM: ${part.oem}
+
+<p>
+📂 Category:
+${getCategoryName(part.categoryId)}
 </p>
+
+
+<p>
+OEM:
+${part.oem}
+</p>
+
+
 
 </div>
 
@@ -218,15 +303,21 @@ OEM: ${part.oem}
 
 
 
+
+
 if(
+
 manufacturerResults.length === 0 &&
 vehicleResults.length === 0 &&
 partResults.length === 0
+
 ){
 
-box.innerHTML = "<p>No results found</p>";
+box.innerHTML =
+"<p>No results found</p>";
 
 }
+
 
 
 });
