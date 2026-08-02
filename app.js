@@ -5,34 +5,36 @@ app.innerHTML = `
 
 <header class="header">
 
-<div class="logo">
-🚗 GAPHub
-<span>Global Auto Parts & Compatibility Platform</span>
-</div>
+    <div class="logo">
+        🚗 PartMatrix
+        <span>Global Auto Parts & Compatibility Platform</span>
+    </div>
 
-<div class="language">
-<button>🇺🇸 EN</button>
-<button>🇸🇦 AR</button>
-<button>🇫🇷 FR</button>
-<button>🇪🇸 ES</button>
-</div>
+    <div class="language">
+        <button>🇺🇸 EN</button>
+        <button>🇸🇦 AR</button>
+        <button>🇫🇷 FR</button>
+        <button>🇪🇸 ES</button>
+    </div>
 
 </header>
 
 
 <section class="hero">
 
-<h1>Find Any Auto Part Worldwide</h1>
+<h1>
+Find Any Auto Part Worldwide
+</h1>
 
 <p>
-Search Vehicles, OEM Numbers and Parts
+Search Manufacturers, Vehicles, OEM Numbers and Parts
 </p>
 
 
 <div class="search-box">
 
 <input id="searchInput"
-placeholder="Toyota, Corolla, OEM Number...">
+placeholder="Toyota, Corolla, Oil Filter, OEM Number...">
 
 <button id="searchBtn">
 🔍 Search
@@ -51,23 +53,28 @@ placeholder="Toyota, Corolla, OEM Number...">
 
 let parts = [];
 let vehicles = [];
+let manufacturers = [];
+
 
 
 Promise.all([
 
 fetch("parts.json").then(r => r.json()),
 
-fetch("vehicles.json").then(r => r.json())
+fetch("vehicles.json").then(r => r.json()),
+
+fetch("manufacturers.json").then(r => r.json())
 
 ])
 
 .then(data => {
 
 parts = data[0];
-
 vehicles = data[1];
+manufacturers = data[2];
 
 });
+
 
 
 
@@ -83,13 +90,11 @@ document.getElementById("searchInput")
 
 
 
-let partResults =
-parts.filter(item =>
+let manufacturerResults =
+manufacturers.filter(item =>
 
-item.brand.toLowerCase().includes(value) ||
-item.model.toLowerCase().includes(value) ||
-item.part.toLowerCase().includes(value) ||
-item.oem.toLowerCase().includes(value)
+item.name.toLowerCase().includes(value) ||
+item.country.toLowerCase().includes(value)
 
 );
 
@@ -106,31 +111,36 @@ item.engine.toLowerCase().includes(value)
 
 
 
-let box =
-document.getElementById("results");
+let partResults =
+parts.filter(item =>
+
+item.brand.toLowerCase().includes(value) ||
+item.model.toLowerCase().includes(value) ||
+item.part.toLowerCase().includes(value) ||
+item.oem.toLowerCase().includes(value)
+
+);
 
 
+
+let box = document.getElementById("results");
 
 box.innerHTML = "";
 
 
 
-vehicleResults.forEach(car => {
+manufacturerResults.forEach(item=>{
 
 box.innerHTML += `
 
 <div class="results-card">
 
 <h3>
-🚗 ${car.brand} ${car.model}
+🏭 ${item.name}
 </h3>
 
 <p>
-📅 Year: ${car.year}
-</p>
-
-<p>
-⚙️ Engine: ${car.engine}
+🌍 Country: ${item.country}
 </p>
 
 </div>
@@ -141,26 +151,52 @@ box.innerHTML += `
 
 
 
-partResults.forEach(part => {
+vehicleResults.forEach(item=>{
 
 box.innerHTML += `
 
 <div class="results-card">
 
 <h3>
-🔧 ${part.part}
+🚗 ${item.brand} ${item.model}
 </h3>
 
 <p>
-🚗 ${part.brand} ${part.model}
+📅 Year: ${item.year}
 </p>
 
 <p>
-📅 Year: ${part.year}
+⚙️ Engine: ${item.engine}
+</p>
+
+</div>
+
+`;
+
+});
+
+
+
+partResults.forEach(item=>{
+
+box.innerHTML += `
+
+<div class="results-card">
+
+<h3>
+🔧 ${item.part}
+</h3>
+
+<p>
+🚗 ${item.brand} ${item.model}
+</p>
+
+<p>
+📅 Year: ${item.year}
 </p>
 
 <p class="oem-number">
-OEM: ${part.oem}
+OEM: ${item.oem}
 </p>
 
 </div>
@@ -171,7 +207,11 @@ OEM: ${part.oem}
 
 
 
-if(vehicleResults.length === 0 && partResults.length === 0){
+if(
+manufacturerResults.length === 0 &&
+vehicleResults.length === 0 &&
+partResults.length === 0
+){
 
 box.innerHTML =
 "<p>No results found</p>";
