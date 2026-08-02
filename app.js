@@ -19,6 +19,26 @@ app.innerHTML = `
 
 <section class="hero">
 
+<section class="brands">
+
+    <h2>Popular Manufacturers</h2>
+
+    <div class="brand-grid">
+
+        <div class="brand-card">Toyota</div>
+        <div class="brand-card">BMW</div>
+        <div class="brand-card">Mercedes</div>
+        <div class="brand-card">VAG Group</div>
+        <div class="brand-card">Ford</div>
+        <div class="brand-card">Hyundai</div>
+        <div class="brand-card">Renault</div>
+        <div class="brand-card">Stellantis</div>
+        <div class="brand-card">GM</div>
+        <div class="brand-card">Geely</div>
+
+    </div>
+
+</section>
     <h1>
         Find Any Auto Part Worldwide
     </h1>
