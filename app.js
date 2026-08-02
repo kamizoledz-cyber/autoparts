@@ -142,6 +142,6 @@ document.getElementById("searchBtn")
 
         </div>
 
-    `).join("");
+    `).join(""); 
 
 });
