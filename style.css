@@ -120,3 +120,37 @@ body{
 .language button:hover{
     background:#2563eb;
 }
+.search-box{
+    margin:50px auto 0;
+    max-width:700px;
+    display:flex;
+    background:#1e293b;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.search-box input{
+    flex:1;
+    padding:18px;
+    background:transparent;
+    border:none;
+    color:white;
+    font-size:16px;
+}
+
+.search-box input::placeholder{
+    color:#94a3b8;
+}
+
+.search-box button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:0 30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.search-box button:hover{
+    background:#1d4ed8;
+}
