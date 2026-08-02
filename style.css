@@ -174,3 +174,34 @@ body{
 }
 
 }
+.results-card{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:15px;
+    padding:25px;
+    margin:20px auto;
+    max-width:700px;
+    text-align:left;
+    transition:.3s;
+}
+
+.results-card:hover{
+    border-color:#2563eb;
+    transform:translateY(-3px);
+}
+
+.results-card h3{
+    font-size:24px;
+    margin-bottom:15px;
+}
+
+.results-card p{
+    color:#cbd5e1;
+    margin:8px 0;
+}
+
+.oem-number{
+    color:#38bdf8;
+    font-weight:bold;
+    font-size:18px;
+    }
