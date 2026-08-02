@@ -32,7 +32,7 @@ app.innerHTML = `
 
         <input id="searchInput"
         type="text"
-        placeholder="Example: Toyota, Oil Filter, 90915-YZZF2">
+        placeholder="Search Toyota, Oil Filter, OEM Number...">
 
         <button id="searchBtn">
         🔍 Search
@@ -45,7 +45,6 @@ app.innerHTML = `
 
 
 </section>
-
 
 
 <section class="stats">
@@ -72,14 +71,13 @@ app.innerHTML = `
 
 </section>
 
-
 `;
 
 
 let parts = [];
 
 
-fetch("parts.json")
+fetch("./parts.json")
 .then(response => response.json())
 .then(data => {
     parts = data;
@@ -89,55 +87,61 @@ fetch("parts.json")
 document.getElementById("searchBtn")
 .addEventListener("click",()=>{
 
-
-let value =
-document.getElementById("searchInput")
-.value
-.toLowerCase();
-
-
-let results =
-parts.filter(item =>
-
-item.brand.toLowerCase().includes(value) ||
-item.model.toLowerCase().includes(value) ||
-item.part.toLowerCase().includes(value) ||
-item.oem.toLowerCase().includes(value)
-
-);
+    let value =
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
 
 
-let box =
-document.getElementById("results");
+    let results =
+    parts.filter(item =>
+
+        item.brand.toLowerCase().includes(value) ||
+        item.model.toLowerCase().includes(value) ||
+        item.part.toLowerCase().includes(value) ||
+        item.oem.toLowerCase().includes(value)
+
+    );
 
 
-if(results.length === 0){
-
-box.innerHTML =
-"<p>No parts found</p>";
-
-return;
-
-}
+    let box =
+    document.getElementById("results");
 
 
-box.innerHTML =
-results.map(item =>`
+    if(results.length === 0){
 
-<div class="stat-card">
+        box.innerHTML =
+        "<p>No parts found</p>";
 
-<h3>${item.brand} ${item.model}</h3>
+        return;
 
-<p>
-${item.part}
-</p>
+    }
 
-<p>
-OEM: ${item.oem}
-</p>
 
-</div>
+    box.innerHTML =
+    results.map(item =>`
 
-`).join("");
+        <div class="results-card">
+
+            <h3>
+            🚗 ${item.brand} ${item.model}
+            </h3>
+
+            <p>
+            📅 Year: ${item.year}
+            </p>
+
+            <p>
+            🔧 Part: ${item.part}
+            </p>
+
+            <p class="oem-number">
+            OEM: ${item.oem}
+            </p>
+
+        </div>
+
+    `).join("");
 
 });
