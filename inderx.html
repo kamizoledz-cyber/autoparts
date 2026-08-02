@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="DzAuto Parts & Tire Match — أداة جزائرية لإيجاد بدائل آمنة للعجلات، فحص تاريخ صنع العجلة، والبحث عن قطع الغيار المتوافقة بين الماركات.">
+<meta name="theme-color" content="#0B1F3A">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%230B1F3A'/%3E%3Ccircle cx='50' cy='50' r='44' fill='none' stroke='%23F5B301' stroke-width='7'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%23F5B301'/%3E%3C/svg%3E">
+<title>DzAuto Parts &amp; Tire Match</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root{
+    --navy-900:#0B1F3A;
+    --navy-800:#102846;
+    --navy-700:#16324F;
+    --navy-600:#1E4066;
+    --gray-900:#1F2937;
+    --gray-600:#57647A;
+    --gray-400:#94A3B8;
+    --gray-200:#E3E7ED;
+    --gray-100:#F1F3F6;
+    --bg:#F4F6F8;
+    --card-bg:#FFFFFF;
+    --yellow-500:#F5B301;
+    --yellow-600:#D99A00;
+    --green-500:#22C55E;
+    --blue-500:#38BDF8;
+    --red-500:#EF4444;
+    --radius:14px;
+    --radius-sm:10px;
+    --shadow:0 6px 18px rgba(11,31,58,0.08);
+    --font-display:'Cairo',Tahoma,Arial,sans-serif;
+    --font-body:'Tajawal',Tahoma,Arial,sans-serif;
+    --font-mono:'JetBrains Mono','Courier New',monospace;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--gray-900);
+    font-family:var(--font-body);
+    line-height:1.6;
+    min-height:100vh;
+  }
+
+  *:focus-visible{outline:3px solid var(--yellow-500); outline-offset:2px; border-radius:4px;}
+
+  /* ===== شريط الخطر الزخرفي (توقيع التصميم) ===== */
+  .hazard-strip{
+    height:8px;
+    background:repeating-linear-gradient(135deg,
+      var(--yellow-500) 0 14px,
+      var(--navy-900) 14px 28px);
+  }
+
+  /* ===== الترويسة ===== */
+  header{
+    background:linear-gradient(160deg, var(--navy-900), var(--navy-700));
+    color:#fff;
+    padding:22px 18px 18px;
+    text-align:center;
+  }
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .brand-icon{width:34px; height:34px; flex-shrink:0;}
+  .brand{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:1.32rem;
+    letter-spacing:0.2px;
+    color:#fff;
+  }
+  header .tagline{
+    margin:8px 0 0;
+    font-size:0.92rem;
+    color:rgba(255,255,255,0.72);
+    font-weight:400;
+  }
+
+  /* ===== تبويبات التنقل ===== */
+  nav.tabs{
+    display:flex;
+    background:var(--navy-800);
+    box-shadow:inset 0 -1px 0 rgba(255,255,255,0.06);
+  }
+  .tab-btn{
+    flex:1 1 0;
+    background:transparent;
+    border:none;
+    color:rgba(255,255,255,0.6);
+    padding:12px 6px 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    cursor:pointer;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:0.78rem;
+    border-bottom:3px solid transparent;
+    transition:color .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .tab-btn svg{width:22px; height:22px;}
+  .tab-btn:hover{color:rgba(255,255,255,0.85);}
+  .tab-btn.active{
+    color:#fff;
+    border-bottom-color:var(--yellow-500);
+    background:rgba(255,255,255,0.05);
+  }
+
+  /* ===== المحتوى ===== */
+  main{
+    max-width:600px;
+    margin:0 auto;
+    padding:18px 16px 8px;
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block; animation:fadeIn .35s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .card{
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px;
+    margin-bottom:16px;
+  }
+  .card h2{
+    font-family:var(--font-display);
+    font-size:1.08rem;
+    margin:0 0 4px;
+    color:var(--navy-900);
+  }
+  .card .card-desc{
+    margin:0 0 16px;
+    font-size:0.88rem;
+    color:var(--gray-600);
+  }
+
+  /* ===== نموذج المدخلات ===== */
+  .field-label{
+    display:block;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:0.8rem;
+    color:var(--navy-800);
+    margin-bottom:5px;
+  }
+  input[type="number"], input[type="text"]{
+    width:100%;
+    padding:11px 12px;
+    border:1.5px solid var(--gray-200);
+    border-radius:var(--radius-sm);
+    font-size:16px;
+    font-family:var(--font-mono);
+    color:var(--navy-900);
+    background:#fff;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  input:focus{
+    border-color:var(--navy-600);
+    box-shadow:0 0 0 3px rgba(30,64,102,0.14);
+    outline:none;
+  }
+  input::placeholder{color:var(--gray-400); font-family:var(--font-body);}
+
+  .tire-size-row{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .tire-size-row .input-group{flex:1 1 78px; min-width:74px;}
+  .size-sep{
+    padding-bottom:11px;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--gray-400);
+  }
+
+  .presets{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .presets-label{font-size:0.78rem; color:var(--gray-600); flex-shrink:0;}
+  .preset-btn{
+    background:var(--gray-100);
+    border:1px solid var(--gray-200);
+    color:var(--navy-800);
+    font-family:var(--font-mono);
+    font-size:0.76rem;
+    padding:5px 10px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .preset-btn:hover{background:var(--gray-200);}
+
+  .btn-primary{
+    width:100%;
+    margin-top:16px;
+    background:var(--yellow-500);
+    color:var(--navy-900);
+    border:none;
+    padding:13px 16px;
+    border-radius:var(--radius-sm);
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition:background .2s ease, transform .1s ease;
+  }
+  .btn-primary:hover{background:var(--yellow-600);}
+  .btn-primary:active{transform:scale(0.98);}
+
+  .error-text{
+    color:var(--red-500);
+    font-size:0.84rem;
+    font-weight:500;
+    margin-top:10px;
+    min-height:1px;
+  }
+
+  .notice{
+    padding:12px 14px;
+    border-radius:var(--radius-sm);
+    font-size:0.86rem;
+  }
+  .notice-yellow{background:rgba(245,179,1,0.12); color:#7A5300; border:1px solid rgba(245,179,1,0.35);}
+
+  /* ===== شارات الحالة (Chips) ===== */
+  .chip{
+    display:inline-block;
+    padding:4px 11px;
+    border-radius:999px;
+    font-size:0.76rem;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .chip.big{font-size:0.86rem; padding:6px 14px;}
+  .chip.small{font-size:0.72rem; padding:3px 9px;}
+  .chip-green{background:rgba(34,197,94,0.13); color:#15803D; border:1px solid rgba(34,197,94,0.35);}
+  .chip-blue{background:rgba(56,189,248,0.13); color:#0369A1; border:1px solid rgba(56,189,248,0.35);}
+  .chip-yellow{background:rgba(245,179,1,0.15); color:#8A5F00; border:1px solid rgba(245,179,1,0.4);}
+  .chip-red{background:rgba(239,68,68,0.13); color:#B91C1C; border:1px solid rgba(239,68,68,0.35);}
+
+  /* ===== نتائج حاسبة العجلات ===== */
+  #tireResults{margin-top:18px;}
+  .original-box{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    background:var(--gray-100);
+    border-radius:var(--radius-sm);
+    padding:10px 14px;
+    font-size:0.84rem;
+    color:var(--gray-600);
+    margin-bottom:14px;
+  }
+  .original-box strong{color:var(--navy-900); font-family:var(--font-mono);}
+
+  .best-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:linear-gradient(160deg, var(--navy-900), var(--navy-700));
+    border-radius:var(--radius);
+    padding:16px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .gauge-wrap{position:relative; width:104px; height:104px; flex-shrink:0;}
+  .gauge{width:100%; height:100%; transform:rotate(-90deg); transform-origin:50% 50%;}
+  .gauge-track{fill:none; stroke:rgba(255,255,255,0.15); stroke-width:9;}
+  .gauge-fill{fill:none; stroke-width:9; stroke-linecap:round; transition:stroke-dashoffset .7s ease;}
+  .gauge-center{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .gauge-value{font-family:var(--font-mono); font-weight:700; font-size:1.05rem; color:#fff;}
+  .gauge-label{font-size:0.66rem; color:rgba(255,255,255,0.65); margin-top:2px;}
+
+  .best-info{display:flex; flex-direction:column; gap:6px; flex:1 1 140px; min-width:140px;}
+  .badge-recommend{
+    background:var(--yellow-500);
+    color:var(--navy-900);
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:0.72rem;
+    padding:3px 10px;
+    border-radius:999px;
+    width:fit-content;
+  }
+  .best-info h3{
+    margin:0;
+    color:#fff;
+    font-family:var(--font-mono);
+    font-size:1.25rem;
+    letter-spacing:0.5px;
+  }
+  .best-info .chip-wrap{display:flex; gap:6px; flex-wrap:wrap;}
+
+  .alt-title{
+    font-family:var(--font-display);
+    font-size:0.88rem;
+    color:var(--navy-800);
+    margin:0 0 10px;
+  }
+  .alt-list{display:flex; flex-direction:column; gap:8px;}
+  .alt-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:#fff;
+    border:1px solid var(--gray-200);
+    border-radius:var(--radius-sm);
+    padding:10px 14px;
+    flex-wrap:wrap;
+  }
+  .alt-size{font-family:var(--font-mono); font-weight:600; color:var(--navy-900); font-size:0.92rem;}
+  .tag-common{
+    background:rgba(34,197,94,0.12);
+    color:#15803D;
+    font-size:0.7rem;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:999px;
+  }
+
+  /* ===== قسم DOT ===== */
+  #dotResults{margin-top:18px;}
+  .tire-stamp{
+    background:radial-gradient(circle at 28% 22%, #2c2c2c, #0e0e0e 72%);
+    border-radius:16px;
+    padding:22px 16px;
+    text-align:center;
+    box-shadow:inset 0 0 24px rgba(0,0,0,0.55);
+    margin-bottom:14px;
+  }
+  .stamp-code{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:2.1rem;
+    letter-spacing:5px;
+    color:#EDEDED;
+    text-shadow:1px 1px 0 rgba(255,255,255,0.10), -1px -1px 1px rgba(0,0,0,0.7);
+  }
+  .stamp-sub{
+    margin-top:8px;
+    font-size:0.82rem;
+    color:rgba(255,255,255,0.55);
+    font-family:var(--font-display);
+  }
+  .dot-info-card{
+    background:var(--gray-100);
+    border-radius:var(--radius-sm);
+    padding:16px;
+  }
+  .dot-info-card .chip{margin-bottom:10px;}
+  .age-text{margin:0 0 6px; font-size:0.92rem; color:var(--gray-900);}
+  .age-text strong{font-family:var(--font-mono); color:var(--navy-900);}
+  .advice-text{margin:0; font-size:0.86rem; color:var(--gray-600);}
+
+  /* ===== قسم القطع المتوافقة ===== */
+  .search-box{
+    position:relative;
+    margin-bottom:16px;
+  }
+  .search-box svg{
+    position:absolute;
+    top:50%; right:14px;
+    transform:translateY(-50%);
+    width:18px; height:18px;
+    color:var(--gray-400);
+  }
+  .search-box input{padding-right:40px; font-family:var(--font-body);}
+
+  .cross-card{
+    background:#fff;
+    border-radius:var(--radius-sm);
+    border-right:4px solid var(--navy-700);
+    box-shadow:var(--shadow);
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .cross-header{display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;}
+  .cross-cat{
+    font-size:0.7rem;
+    color:var(--navy-700);
+    background:var(--gray-100);
+    padding:2px 9px;
+    border-radius:999px;
+    font-weight:600;
+    order:2;
+  }
+  .cross-header h4{
+    margin:0;
+    font-family:var(--font-display);
+    font-size:0.96rem;
+    color:var(--navy-900);
+    order:1;
+  }
+  .cross-models{display:flex; gap:6px; flex-wrap:wrap; margin:9px 0;}
+  .tag-model{
+    background:var(--gray-100);
+    color:var(--navy-800);
+    font-size:0.76rem;
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .cross-note{margin:0; font-size:0.83rem; color:var(--gray-600); line-height:1.6;}
+
+  /* ===== تذييل ===== */
+  footer{
+    text-align:center;
+    padding:16px 18px 28px;
+    font-size:0.76rem;
+    color:var(--gray-600);
+  }
+  footer p{margin:0 auto; max-width:480px;}
+
+  @media (min-width:640px){
+    .brand{font-size:1.5rem;}
+    main{padding:24px 16px 8px;}
+    .stamp-code{font-size:2.5rem;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-row">
+      <svg class="brand-icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <circle cx="50" cy="50" r="44" fill="none" stroke="#F5B301" stroke-width="7"/>
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="6 8"/>
+        <circle cx="50" cy="50" r="12" fill="#F5B301"/>
+      </svg>
+      <span class="brand" dir="ltr">DzAuto Parts &amp; Tire Match</span>
+    </div>
+    <p class="tagline">رفيقك الذكي لإيجاد العجلات وقطع الغيار المتوافقة في الجزائر</p>
+  </header>
+
+  <div class="hazard-strip"></div>
+
+  <nav class="tabs" role="tablist" aria-label="أقسام التطبيق">
+    <button class="tab-btn active" data-tab="panel-tire" role="tab" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+        <path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>
+      </svg>
+      بدائل العجلات
+    </button>
+    <button class="tab-btn" data-tab="panel-dot" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/>
+        <path d="M3.5 9.5h17M8 3v3M16 3v3"/>
+        <path d="M8 13.5h2M14 13.5h2M8 17h2M14 17h2"/>
+      </svg>
+      فاحص تاريخ العجلة
+    </button>
+    <button class="tab-btn" data-tab="panel-cross" role="tab" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path d="M14.5 3.5l6 6-2.5 2.5-1.5-1.5-7 7-3 1 1-3 7-7-1.5-1.5z"/>
+        <path d="M4 20l3-1"/>
+      </svg>
+      القطع المتوافقة
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ============ القسم الأول: حاسبة بدائل العجلات ============ -->
+    <section id="panel-tire" class="tab-panel active" role="tabpanel">
+      <div class="card">
+        <h2>حاسبة بدائل العجلات</h2>
+        <p class="card-desc">أدخل المقاس المكتوب على جنب عجلتك، وسنقترح مقاسات بديلة بنفس القطر الإجمالي تقريباً (هامش أمان أقل من 3%).</p>
+
+        <form id="tireForm" novalidate>
+          <div class="tire-size-row">
+            <div class="input-group">
+              <label class="field-label" for="tw">العرض</label>
+              <input type="number" id="tw" inputmode="numeric" placeholder="195">
+            </div>
+            <span class="size-sep">/</span>
+            <div class="input-group">
+              <label class="field-label" for="tp">النسبة</label>
+              <input type="number" id="tp" inputmode="numeric" placeholder="65">
+            </div>
+            <span class="size-sep">R</span>
+            <div class="input-group">
+              <label class="field-label" for="tr">قطر الجنط</label>
+              <input type="number" id="tr" inputmode="numeric" placeholder="15">
+            </div>
+          </div>
+
+          <div class="presets">
+            <span class="presets-label">أمثلة شائعة:</span>
+            <button type="button" class="preset-btn" data-w="195" data-p="65" data-r="15">195/65 R15</button>
+            <button type="button" class="preset-btn" data-w="175" data-p="70" data-r="13">175/70 R13</button>
+            <button type="button" class="preset-btn" data-w="205" data-p="55" data-r="16">205/55 R16</button>
+          </div>
+
+          <button type="submit" class="btn-primary">عرض البدائل الآمنة</button>
+          <p class="error-text" id="tireError" role="alert"></p>
+        </form>
+
+        <div id="tireResults" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ القسم الثاني: فاحص تاريخ العجلة ============ -->
+    <section id="panel-dot" class="tab-panel" role="tabpanel">
+      <div class="card">
+        <h2>فاحص تاريخ العجلة (DOT Code)</h2>
+        <p class="card-desc">أدخل الأرقام الأربعة الأخيرة من رمز DOT المطبوع على جنب العجلة (مثال: 1223) لمعرفة أسبوع وسنة الصنع.</p>
+
+        <form id="dotForm" novalidate>
+          <label class="field-label" for="dotCode">آخر 4 أرقام من رمز DOT</label>
+          <input type="text" id="dotCode" inputmode="numeric" maxlength="4" placeholder="1223" autocomplete="off">
+
+          <div class="presets">
+            <span class="presets-label">جرّب مثالاً:</span>
+            <button type="button" class="preset-btn" data-code="2226">2226</button>
+            <button type="button" class="preset-btn" data-code="1024">1024</button>
+            <button type="button" class="preset-btn" data-code="2018">2018</button>
+          </div>
+
+          <button type="submit" class="btn-primary">فحص العجلة</button>
+          <p class="error-text" id="dotError" role="alert"></p>
+        </form>
+
+        <div id="dotResults" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ============ القسم الثالث: دليل القطع المتوافقة ============ -->
+    <section id="panel-cross" class="tab-panel" role="tabpanel">
+      <div class="card">
+        <h2>دليل القطع المتوافقة (Cross-Reference)</h2>
+        <p class="card-desc">بعض السيارات تتشارك نفس المنصة أو المحرك، ما يفتح لك خيارات أوسع في السوق. ابحث باسم الماركة أو القطعة.</p>
+
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          <input type="text" id="crossSearch" placeholder="مثال: بيجو، فلتر الزيت، Dacia..." autocomplete="off">
+        </div>
+
+        <div id="crossList" aria-live="polite"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="hazard-strip"></div>
+
+  <footer>
+    <p>هذا التطبيق أداة إرشادية تقريبية لتسهيل البحث، ولا يغني عن استشارة فني مختص أو موزع عجلات معتمد قبل الشراء أو التركيب.</p>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     التبويبات
+  ============================================================ */
+  var tabButtons = document.querySelectorAll('.tab-btn');
+  var tabPanels = document.querySelectorAll('.tab-panel');
+  tabButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabButtons.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      tabPanels.forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ============================================================
+     القسم 1: حاسبة بدائل العجلات
+  ============================================================ */
+  var STD_WIDTHS = [135,145,155,165,175,185,195,205,215,225,235,245,255,265,275,285,295,305,315];
+  var STD_PROFILES = [30,35,40,45,50,55,60,65,70,75,80,85];
+  var COMMON_SIZES = new Set([
+    '135/80','145/80','145/70','155/80','155/70','155/65',
+    '165/70','165/65','165/60','175/70','175/65','175/60',
+    '185/70','185/65','185/60','185/55','195/70','195/65',
+    '195/60','195/55','195/50','205/65','205/60','205/55',
+    '205/50','205/45','215/65','215/60','215/55','215/50',
+    '215/45','225/65','225/60','225/55','225/50','225/45',
+    '235/60','235/55','235/50','235/45'
+  ]);
+
+  function calcDiameterMM(width, profile, rim){
+    return (rim * 25.4) + (2 * (width * profile / 100));
+  }
+
+  function findAlternatives(width, profile, rim){
+    var d0 = calcDiameterMM(width, profile, rim);
+    var results = [];
+    STD_WIDTHS.forEach(function(w){
+      if (Math.abs(w - width) > 20) return;
+      STD_PROFILES.forEach(function(p){
+        if (w === width && p === profile) return;
+        var d = calcDiameterMM(w, p, rim);
+        var diffPct = ((d - d0) / d0) * 100;
+        if (Math.abs(diffPct) <= 3.0){
+          results.push({
+            width: w, profile: p, rim: rim, diameter: d, diffPct: diffPct,
+            common: COMMON_SIZES.has(w + '/' + p)
+          });
+        }
+      });
+    });
+    results.sort(function(a,b){ return Math.abs(a.diffPct) - Math.abs(b.diffPct); });
+    return { original: { width: width, profile: profile, rim: rim, diameter: d0 }, alternatives: results.slice(0, 8) };
+  }
+
+  function gaugeInfo(absDiff){
+    if (absDiff <= 1) return { color:'#22C55E', tier:'green', label:'مطابقة شبه مثالية' };
+    if (absDiff <= 2) return { color:'#38BDF8', tier:'blue', label:'بديل آمن وموثوق' };
+    return { color:'#F5B301', tier:'yellow', label:'ضمن الحد الآمن (3%)' };
+  }
+
+  var GAUGE_CIRC = 2 * Math.PI * 46; // نصف قطر دائرة القياس = 46
+
+  function renderTireResults(original, alternatives){
+    var el = document.getElementById('tireResults');
+
+    if (alternatives.length === 0){
+      el.innerHTML = '<div class="notice notice-yellow">لم يتم العثور على بديل ضمن هامش الأمان (3%) بهذه القيم. جرّب تعديل المقاس قليلاً أو استشر بائع العجلات.</div>';
+      return;
+    }
+
+    var best = null;
+    for (var i=0; i<alternatives.length; i++){
+      if (alternatives[i].common){ best = alternatives[i]; break; }
+    }
+    if (!best) best = alternatives[0];
+
+    var g = gaugeInfo(Math.abs(best.diffPct));
+    var ratio = Math.max(0, 1 - (Math.abs(best.diffPct) / 3));
+    var offset = GAUGE_CIRC * (1 - ratio);
+    var sign = best.diffPct >= 0 ? '+' : '';
+
+    var html = '';
+    html += '<div class="original-box">';
+    html += '<span>المقاس الأصلي: <strong>' + original.width + '/' + original.profile + ' R' + original.rim + '</strong></span>';
+    html += '<span>القطر الإجمالي: <strong>' + original.diameter.toFixed(1) + ' مم</strong></span>';
+    html += '</div>';
+
+    html += '<div class="best-card">';
+    html += '  <div class="gauge-wrap">';
+    html += '    <svg class="gauge" viewBox="0 0 100 100">';
+    html += '      <circle class="gauge-track" cx="50" cy="50" r="46"/>';
+    html += '      <circle class="gauge-fill" cx="50" cy="50" r="46" style="stroke:' + g.color + '; stroke-dasharray:' + GAUGE_CIRC.toFixed(2) + '; stroke-dashoffset:' + offset.toFixed(2) + ';"/>';
+    html += '    </svg>';
+    html += '    <div class="gauge-center">';
+    html += '      <span class="gauge-value">' + sign + best.diffPct.toFixed(2) + '%</span>';
+    html += '      <span class="gauge-label">فارق القطر</span>';
+    html += '    </div>';
+    html += '  </div>';
+    html += '  <div class="best-info">';
+    html += '    <span class="badge-recommend">الأنسب لك ✓</span>';
+    html += '    <h3>' + best.width + '/' + best.profile + ' R' + best.rim + '</h3>';
+    html += '    <div class="chip-wrap">';
+    html += '      <span class="chip chip-' + g.tier + '">' + g.label + '</span>';
+    html += best.common
+      ? '<span class="chip chip-green">متوفر بكثرة محلياً</span>'
+      : '<span class="chip chip-yellow">تحقق من التوفر لدى الموزع</span>';
+    html += '    </div>';
+    html += '  </div>';
+    html += '</div>';
+
+    var others = alternatives.filter(function(a){ return a !== best; });
+    if (others.length > 0){
+      html += '<h4 class="alt-title">بدائل أخرى ضمن الحد الآمن</h4>';
+      html += '<div class="alt-list">';
+      others.forEach(function(a){
+        var gg = gaugeInfo(Math.abs(a.diffPct));
+        var s = a.diffPct >= 0 ? '+' : '';
+        html += '<div class="alt-item">';
+        html += '  <span class="alt-size">' + a.width + '/' + a.profile + ' R' + a.rim + '</span>';
+        html += '  <span class="chip chip-' + gg.tier + ' small">' + s + a.diffPct.toFixed(2) + '%</span>';
+        html += a.common ? '<span class="tag-common">شائع محلياً</span>' : '';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
+    el.innerHTML = html;
+  }
+
+  var tireForm = document.getElementById('tireForm');
+  tireForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var width = parseInt(document.getElementById('tw').value, 10);
+    var profile = parseInt(document.getElementById('tp').value, 10);
+    var rim = parseInt(document.getElementById('tr').value, 10);
+    var errorEl = document.getElementById('tireError');
+    var resultsEl = document.getElementById('tireResults');
+    errorEl.textContent = '';
+    resultsEl.innerHTML = '';
+
+    if (!width || !profile || !rim){
+      errorEl.textContent = 'يرجى تعبئة الحقول الثلاثة بأرقام صحيحة.';
+      return;
+    }
+    if (width < 115 || width > 335){
+      errorEl.textContent = 'العرض يجب أن يكون بين 115 و335 مم.';
+      return;
+    }
+    if (profile < 25 || profile > 85){
+      errorEl.textContent = 'نسبة السمك يجب أن تكون بين 25 و85.';
+      return;
+    }
+    if (rim < 10 || rim > 24){
+      errorEl.textContent = 'قطر الجنط يجب أن يكون بين 10 و24 إنش.';
+      return;
+    }
+
+    var out = findAlternatives(width, profile, rim);
+    renderTireResults(out.original, out.alternatives);
+  });
+
+  document.querySelectorAll('#panel-tire .preset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.getElementById('tw').value = btn.dataset.w;
+      document.getElementById('tp').value = btn.dataset.p;
+      document.getElementById('tr').value = btn.dataset.r;
+      tireForm.requestSubmit();
+    });
+  });
+
+  /* ============================================================
+     القسم 2: فاحص تاريخ العجلة (DOT Code)
+  ============================================================ */
+  function getISOWeekDate(week, year){
+    var jan1 = new Date(Date.UTC(year, 0, 1));
+    var dow = jan1.getUTCDay() || 7; // 1..7 (اثنين..أحد)
+    var week1Monday = new Date(jan1.getTime());
+    if (dow <= 4){
+      week1Monday.setUTCDate(jan1.getUTCDate() - dow + 1);
+    } else {
+      week1Monday.setUTCDate(jan1.getUTCDate() + (8 - dow));
+    }
+    var target = new Date(week1Monday.getTime());
+    target.setUTCDate(week1Monday.getUTCDate() + (week - 1) * 7);
+    return target;
+  }
+
+  function checkDot(code){
+    if (!/^\d{4}$/.test(code)){
+      return { error: 'الرجاء إدخال 4 أرقام بالضبط (مثال: 1223).' };
+    }
+    var week = parseInt(code.slice(0,2), 10);
+    var yy = parseInt(code.slice(2,4), 10);
+    if (week < 1 || week > 53){
+      return { error: 'رقم الأسبوع غير صالح، يجب أن يكون بين 01 و53.' };
+    }
+    var year = 2000 + yy;
+    var now = new Date();
+    var mfgDate = getISOWeekDate(week, year);
+    if (mfgDate.getTime() > now.getTime()){
+      return { error: 'هذا التاريخ في المستقبل، تأكد من الأرقام الأربعة (نظام DOT الحالي يُستخدم منذ سنة 2000).' };
+    }
+    var ageMs = now.getTime() - mfgDate.getTime();
+    var ageYears = ageMs / (1000 * 60 * 60 * 24 * 365.25);
+    return { week: week, year: year, ageYears: ageYears };
+  }
+
+  function ageStatus(ageYears){
+    if (ageYears < 2){
+      return { tier:'green', label:'جديدة - ضمن المدى الآمن', advice:'حالة المطاط ممتازة، والعجلة مناسبة للاستخدام مباشرة.' };
+    }
+    if (ageYears < 3){
+      return { tier:'yellow', label:'متوسطة العمر', advice:'افحص المطاط جيداً (تشققات دقيقة، تصلب) قبل التركيب أو الشراء.' };
+    }
+    return { tier:'red', label:'قديمة أو مخزّنة لفترة طويلة', advice:'يُنصح بالفحص من طرف فني مختص قبل الاستعمال، وتجنّبها إن ظهرت عليها تشققات.' };
+  }
+
+  function renderDotResult(code, data){
+    var el = document.getElementById('dotResults');
+    var st = ageStatus(data.ageYears);
+    var weekStr = String(data.week).length < 2 ? '0' + data.week : String(data.week);
+
+    var html = '';
+    html += '<div class="tire-stamp">';
+    html += '  <div class="stamp-code">' + code + '</div>';
+    html += '  <div class="stamp-sub">أسبوع ' + weekStr + ' من سنة ' + data.year + '</div>';
+    html += '</div>';
+    html += '<div class="dot-info-card">';
+    html += '  <span class="chip big chip-' + st.tier + '">' + st.label + '</span>';
+    html += '  <p class="age-text">العمر التقريبي: <strong>' + data.ageYears.toFixed(1) + ' سنة</strong></p>';
+    html += '  <p class="advice-text">' + st.advice + '</p>';
+    html += '</div>';
+
+    el.innerHTML = html;
+  }
+
+  var dotForm = document.getElementById('dotForm');
+  dotForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var val = document.getElementById('dotCode').value.trim();
+    var errorEl = document.getElementById('dotError');
+    var resultsEl = document.getElementById('dotResults');
+    errorEl.textContent = '';
+    resultsEl.innerHTML = '';
+
+    var check = checkDot(val);
+    if (check.error){
+      errorEl.textContent = check.error;
+      return;
+    }
+    renderDotResult(val, check);
+  });
+
+  document.querySelectorAll('#panel-dot .preset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.getElementById('dotCode').value = btn.dataset.code;
+      dotForm.requestSubmit();
+    });
+  });
+
+  /* ============================================================
+     القسم 3: دليل القطع المتوافقة
+  ============================================================ */
+  var CROSS_REF_DATA = [
+    {
+      part: 'فلتر الزيت وطقم الفرامل الأمامي',
+      category: 'محرك وفرامل',
+      models: ['بيجو Peugeot 301', 'سيتروين Citroën C-Elysée'],
+      note: 'السيارتان مبنيتان على نفس المنصة (PF1) وتتشاركان أغلب قطع المحرك والفرامل، ما يسهّل إيجاد القطع في السوق المحلي.'
+    },
+    {
+      part: 'فلتر الهواء والمساعد الأمامي',
+      category: 'تعليق وتغذية هواء',
+      models: ['رينو Renault Symbol', 'داسيا Dacia Logan'],
+      note: 'تعتمد السيارتان على منصة B0 نفسها، فقطع التعليق الأمامي والفلاتر غالباً متبادلة.'
+    },
+    {
+      part: 'شمعات الإشعال وسير المكيف',
+      category: 'إشعال وتكييف',
+      models: ['رينو Renault Clio', 'داسيا Dacia Sandero'],
+      note: 'من نفس مجموعة رينو، وتتشاركان محركات وقطعاً كهربائية عديدة حسب سنة الصنع.'
+    },
+    {
+      part: 'مروحة الرديتر وحساسات ABS',
+      category: 'تبريد وكهرباء',
+      models: ['بيجو Peugeot 208', 'سيتروين Citroën C3'],
+      note: 'منصة CMP المشتركة تجعل قطع التبريد والحساسات متوافقة في أغلب الحالات.'
+    },
+    {
+      part: 'الدينامو وطرمبة البنزين',
+      category: 'كهرباء وتغذية وقود',
+      models: ['بيجو Peugeot Partner', 'سيتروين Citroën Berlingo'],
+      note: 'توأمان ميكانيكياً بالكامل تقريباً، فقطع الغيار متطابقة في معظم الإصدارات.'
+    },
+    {
+      part: 'فلتر الزيت وشمعات الإشعال',
+      category: 'محرك',
+      models: ['هيونداي Hyundai Accent', 'كيا Kia Rio'],
+      note: 'تتشارك المجموعتان محركات وعلب تروس في أجيال معينة، فالقطع الاستهلاكية غالباً متبادلة.'
+    },
+    {
+      part: 'طرمبة الماء وحزام التوقيت',
+      category: 'محرك',
+      models: ['تويوتا Toyota Aygo', 'بيجو Peugeot 107', 'سيتروين Citroën C1'],
+      note: 'أُنتجت الثلاثية في نفس المصنع (TPCA) بمحرك مشترك، ما يجعل قطع المحرك شبه متطابقة.'
+    },
+    {
+      part: 'قطع التعليق الأمامي',
+      category: 'تعليق',
+      models: ['رينو Renault Kangoo', 'مرسيدس Mercedes Citan'],
+      note: 'الجيل الأول من Citan مبني على منصة Kangoo، فبعض قطع التعليق قابلة للتبادل.'
+    },
+    {
+      part: 'فلتر الزيت والبطارية',
+      category: 'محرك وكهرباء',
+      models: ['فولكسفاغن Volkswagen Polo', 'سكودا Škoda Fabia', 'سيات SEAT Ibiza'],
+      note: 'الثلاثية من مجموعة فولكسفاغن وتتشارك منصة MQB A0 وقطعاً استهلاكية عديدة.'
+    }
+  ];
+
+  function renderCrossRef(filter){
+    var listEl = document.getElementById('crossList');
+    var f = (filter || '').trim().toLowerCase();
+
+    var filtered = CROSS_REF_DATA.filter(function(item){
+      var haystack = (item.part + ' ' + item.category + ' ' + item.models.join(' ') + ' ' + item.note).toLowerCase();
+      return haystack.indexOf(f) !== -1;
+    });
+
+    if (filtered.length === 0){
+      listEl.innerHTML = '<div class="notice notice-yellow">لا توجد نتائج مطابقة. جرّب اسم ماركة أو نوع قطعة مختلف.</div>';
+      return;
+    }
+
+    var html = '';
+    filtered.forEach(function(item){
+      html += '<div class="cross-card">';
+      html += '  <div class="cross-header">';
+      html += '    <h4>' + item.part + '</h4>';
+      html += '    <span class="cross-cat">' + item.category + '</span>';
+      html += '  </div>';
+      html += '  <div class="cross-models">';
+      item.models.forEach(function(m){ html += '<span class="tag-model">' + m + '</span>'; });
+      html += '  </div>';
+      html += '  <p class="cross-note">' + item.note + '</p>';
+      html += '</div>';
+    });
+    listEl.innerHTML = html;
+  }
+
+  document.getElementById('crossSearch').addEventListener('input', function(e){
+    renderCrossRef(e.target.value);
+  });
+
+  renderCrossRef('');
+
+})();
+</script>
+</body>
+</html>
