@@ -27,9 +27,19 @@ app.innerHTML = `
         OEM Numbers • Cross References • Tire Calculator • Global Brands
     </p>
 
-    <button class="start-btn">
-        Start Searching
+    
+    <div class="search-box">
+
+    <input
+        type="text"
+        placeholder="Search OEM Number, Part Name or Brand..."
+    >
+
+    <button>
+        🔍 Search
     </button>
+
+</div>
 
 </section>
 `;
