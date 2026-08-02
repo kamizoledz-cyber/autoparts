@@ -2,28 +2,34 @@ const app = document.getElementById("app");
 
 app.innerHTML = `
 <header class="header">
+
     <div class="logo">
         🚗 GAPHub
+        <span>Global Auto Parts & Compatibility Hub</span>
     </div>
 
-    <nav class="menu">
-        <a href="#">Home</a>
-        <a href="#">Search</a>
-        <a href="#">Vehicles</a>
-        <a href="#">Tires</a>
-        <a href="#">About</a>
-    </nav>
+    <div class="language">
+        <button>🇺🇸 EN</button>
+        <button>🇸🇦 AR</button>
+        <button>🇫🇷 FR</button>
+        <button>🇪🇸 ES</button>
+    </div>
+
 </header>
 
-<main class="hero">
-    <h1>Global Auto Parts & Compatibility Hub</h1>
+<section class="hero">
+
+    <h1>
+        Find Any Auto Part Worldwide
+    </h1>
+
     <p>
-        Search OEM part numbers, compare compatibility,
-        decode tire specifications, and explore trusted aftermarket brands.
+        OEM Numbers • Cross References • Tire Calculator • Global Brands
     </p>
 
     <button class="start-btn">
         Start Searching
     </button>
-</main>
+
+</section>
 `;
