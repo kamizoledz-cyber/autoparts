@@ -154,3 +154,34 @@ body{
 .search-box button:hover{
     background:#1d4ed8;
 }
+.brands{
+    padding:60px 8%;
+}
+
+.brands h2{
+    text-align:center;
+    margin-bottom:35px;
+    font-size:32px;
+}
+
+.brand-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:20px;
+}
+
+.brand-card{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:12px;
+    padding:25px;
+    text-align:center;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.brand-card:hover{
+    transform:translateY(-5px);
+    background:#2563eb;
+}
