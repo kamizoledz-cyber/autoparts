@@ -1,0 +1,26 @@
+[
+  {
+    "id":1,
+    "brand":"Toyota",
+    "model":"Corolla",
+    "year":"2020",
+    "part":"Oil Filter",
+    "oem":"90915-YZZF2"
+  },
+  {
+    "id":2,
+    "brand":"BMW",
+    "model":"320i",
+    "year":"2019",
+    "part":"Air Filter",
+    "oem":"13717597587"
+  },
+  {
+    "id":3,
+    "brand":"Mercedes",
+    "model":"C-Class",
+    "year":"2021",
+    "part":"Brake Pad",
+    "oem":"A0004208300"
+  }
+]
