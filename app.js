@@ -18,76 +18,126 @@ app.innerHTML = `
 
 </header>
 
+
 <section class="hero">
 
     <h1>Find Any Auto Part Worldwide</h1>
 
     <p>
-        OEM Numbers • Cross References • Tire Calculator • Global Brands
+        Search OEM Numbers, Parts and Brands
     </p>
+
 
     <div class="search-box">
 
-        <input
-            type="text"
-            placeholder="Search OEM Number, Part Name or Brand..."
-        >
+        <input id="searchInput"
+        type="text"
+        placeholder="Example: Toyota, Oil Filter, 90915-YZZF2">
 
-        <button>🔍 Search</button>
+        <button id="searchBtn">
+        🔍 Search
+        </button>
 
     </div>
 
+
+    <div id="results"></div>
+
+
 </section>
+
+
 
 <section class="stats">
 
-    <div class="stat-card">
-        <h2>120K+</h2>
-        <p>OEM Parts</p>
-    </div>
+<div class="stat-card">
+<h2>120K+</h2>
+<p>OEM Parts</p>
+</div>
 
-    <div class="stat-card">
-        <h2>80+</h2>
-        <p>Manufacturers</p>
-    </div>
+<div class="stat-card">
+<h2>80+</h2>
+<p>Manufacturers</p>
+</div>
 
-    <div class="stat-card">
-        <h2>400+</h2>
-        <p>Vehicle Models</p>
-    </div>
+<div class="stat-card">
+<h2>400+</h2>
+<p>Vehicle Models</p>
+</div>
 
-    <div class="stat-card">
-        <h2>4</h2>
-        <p>Languages</p>
-    </div>
-
-</section>
-
-<section class="brands">
-
-    <h2>Popular Manufacturers</h2>
-
-    <div class="brand-grid">
-
-        <div class="brand-card">Toyota</div>
-        <div class="brand-card">BMW</div>
-        <div class="brand-card">Mercedes</div>
-        <div class="brand-card">Ford</div>
-        <div class="brand-card">Hyundai</div>
-        <div class="brand-card">Renault</div>
-        <div class="brand-card">Volkswagen</div>
-        <div class="brand-card">Honda</div>
-
-    </div>
+<div class="stat-card">
+<h2>4</h2>
+<p>Languages</p>
+</div>
 
 </section>
 
-<footer class="footer">
-
-    <p>
-        © 2026 GAPHub — Global Auto Parts & Compatibility Platform
-    </p>
-
-</footer>
 
 `;
+
+
+let parts = [];
+
+
+fetch("parts.json")
+.then(response => response.json())
+.then(data => {
+    parts = data;
+});
+
+
+document.getElementById("searchBtn")
+.addEventListener("click",()=>{
+
+
+let value =
+document.getElementById("searchInput")
+.value
+.toLowerCase();
+
+
+let results =
+parts.filter(item =>
+
+item.brand.toLowerCase().includes(value) ||
+item.model.toLowerCase().includes(value) ||
+item.part.toLowerCase().includes(value) ||
+item.oem.toLowerCase().includes(value)
+
+);
+
+
+let box =
+document.getElementById("results");
+
+
+if(results.length === 0){
+
+box.innerHTML =
+"<p>No parts found</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+results.map(item =>`
+
+<div class="stat-card">
+
+<h3>${item.brand} ${item.model}</h3>
+
+<p>
+${item.part}
+</p>
+
+<p>
+OEM: ${item.oem}
+</p>
+
+</div>
+
+`).join("");
+
+});
