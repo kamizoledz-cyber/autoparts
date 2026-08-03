@@ -1,52 +1,63 @@
+
 [
   {
-    "id":1,
-    "name":"Toyota",
-    "country":"Japan"
+    "id": "PMX-MFR-000001",
+    "name": "Toyota",
+    "country": "Japan",
+    "status": "Active"
   },
   {
-    "id":2,
-    "name":"BMW",
-    "country":"Germany"
+    "id": "PMX-MFR-000002",
+    "name": "BMW",
+    "country": "Germany",
+    "status": "Active"
   },
   {
-    "id":3,
-    "name":"Mercedes-Benz",
-    "country":"Germany"
+    "id": "PMX-MFR-000003",
+    "name": "Mercedes-Benz",
+    "country": "Germany",
+    "status": "Active"
   },
   {
-    "id":4,
-    "name":"Volkswagen",
-    "country":"Germany"
+    "id": "PMX-MFR-000004",
+    "name": "Volkswagen",
+    "country": "Germany",
+    "status": "Active"
   },
   {
-    "id":5,
-    "name":"Ford",
-    "country":"USA"
+    "id": "PMX-MFR-000005",
+    "name": "Ford",
+    "country": "USA",
+    "status": "Active"
   },
   {
-    "id":6,
-    "name":"Hyundai",
-    "country":"South Korea"
+    "id": "PMX-MFR-000006",
+    "name": "Hyundai",
+    "country": "South Korea",
+    "status": "Active"
   },
   {
-    "id":7,
-    "name":"Renault",
-    "country":"France"
+    "id": "PMX-MFR-000007",
+    "name": "Renault",
+    "country": "France",
+    "status": "Active"
   },
   {
-    "id":8,
-    "name":"Honda",
-    "country":"Japan"
+    "id": "PMX-MFR-000008",
+    "name": "Honda",
+    "country": "Japan",
+    "status": "Active"
   },
   {
-    "id":9,
-    "name":"Geely",
-    "country":"China"
+    "id": "PMX-MFR-000009",
+    "name": "Geely",
+    "country": "China",
+    "status": "Active"
   },
   {
-    "id":10,
-    "name":"Stellantis",
-    "country":"Netherlands"
+    "id": "PMX-MFR-000010",
+    "name": "Stellantis",
+    "country": "Netherlands",
+    "status": "Active"
   }
 ]
