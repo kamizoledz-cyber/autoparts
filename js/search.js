@@ -1,19 +1,12 @@
+
 const Search = (() => {
 
-    function normalize(text) {
+    function normalize(value) {
 
-        if (!text) return "";
-
-        return text
+        return (value || "")
             .toString()
             .trim()
             .toLowerCase();
-
-    }
-
-    function contains(text, query) {
-
-        return normalize(text).includes(query);
 
     }
 
@@ -21,46 +14,70 @@ const Search = (() => {
 
         query = normalize(query);
 
-        if (!query) {
+        if (!query) return [];
 
-            return {
+        const results = [];
 
-                manufacturers: [],
-                models: [],
-                parts: []
+        data.vehicleVersions.forEach(vehicle => {
 
-            };
+            const vehicleInfo = VehicleEngine.resolve(
+                vehicle.id,
+                data
+            );
 
-        }
+            if (!vehicleInfo) return;
 
-        const manufacturers = data.manufacturers.filter(item =>
+            const searchText = [
 
-            contains(item.name, query) ||
-            contains(item.country, query)
+                vehicleInfo.manufacturer?.name,
+                vehicleInfo.model?.name,
+                vehicleInfo.generation?.name,
+                vehicleInfo.engine?.code,
+                vehicle.bodyType,
+                vehicle.trim,
+                vehicle.productionYear
 
-        );
+            ].join(" ").toLowerCase();
 
-        const models = data.models.filter(item =>
+            if (!searchText.includes(query))
+                return;
 
-            contains(item.name, query) ||
-            contains(item.segment, query)
+            const compatibleParts =
+                CompatibilityEngine.getParts(
+                    vehicle.id,
+                    data
+                );
 
-        );
+            results.push({
 
-        const parts = data.parts.filter(item =>
+                vehicle: vehicle,
 
-            contains(item.name, query) ||
-            contains(item.description, query)
+                manufacturer:
+                    vehicleInfo.manufacturer,
 
-        );
+                model:
+                    vehicleInfo.model,
 
-        return {
+                generation:
+                    vehicleInfo.generation,
 
-            manufacturers,
-            models,
-            parts
+                engine:
+                    vehicleInfo.engine,
 
-        };
+                transmission:
+                    vehicleInfo.transmission,
+
+                market:
+                    vehicleInfo.market,
+
+                parts:
+                    compatibleParts
+
+            });
+
+        });
+
+        return results;
 
     }
 
