@@ -9,54 +9,26 @@ const App = {
 
             this.showLoading();
 
-            const [
-
-                manufacturers,
-                models,
-                generations,
-                vehicleVersions,
-                engines,
-                transmissions,
-                markets,
-                categories,
-                parts,
-                compatibility
-
-            ] = await Promise.all([
-
-                Data.manufacturers(),
-                Data.models(),
-                Data.generations(),
-                Data.vehicleVersions(),
-                Data.engines(),
-                Data.transmissions(),
-                Data.markets(),
-                Data.categories(),
-                Data.parts(),
-                Data.compatibility()
-
-            ]);
-
             this.data = {
 
-                manufacturers,
-                models,
-                generations,
-                vehicleVersions,
-                engines,
-                transmissions,
-                markets,
-                categories,
-                parts,
-                compatibility
+                manufacturers: await Data.manufacturers(),
+                models: await Data.models(),
+                generations: await Data.generations(),
+                vehicleVersions: await Data.vehicleVersions(),
+                engines: await Data.engines(),
+                transmissions: await Data.transmissions(),
+                markets: await Data.markets(),
+                categories: await Data.categories(),
+                parts: await Data.parts(),
+                compatibility: await Data.compatibility()
 
             };
 
             this.render();
 
-        }
+            this.bindEvents();
 
-        catch (error) {
+        } catch (error) {
 
             console.error(error);
 
@@ -64,7 +36,7 @@ const App = {
 
                 <div class="results-card">
 
-                    <h2>Loading Error</h2>
+                    <h2>⚠️ Loading Error</h2>
 
                     <p>${error.message}</p>
 
@@ -108,24 +80,15 @@ const App = {
 
 <section class="hero">
 
-<h1>
+<h1>Find Any Auto Part Worldwide</h1>
 
-Find Any Auto Part Worldwide
-
-</h1>
-
-<p>
-
-Search by Manufacturer, Model, Generation or Engine
-
-</p>
+<p>Search by Manufacturer, Model, Generation or Engine</p>
 
 <div class="search-box">
 
 <input
-
 id="searchInput"
-
+type="text"
 placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
 <button id="searchBtn">
@@ -142,9 +105,13 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
 `;
 
-        const button = document.getElementById("searchBtn");
+    },
+
+    bindEvents() {
 
         const input = document.getElementById("searchInput");
+
+        const button = document.getElementById("searchBtn");
 
         button.addEventListener("click", () => {
 
@@ -152,7 +119,7 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
         });
 
-        input.addEventListener("keydown", event => {
+        input.addEventListener("keydown", (event) => {
 
             if (event.key === "Enter") {
 
@@ -167,10 +134,25 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
     executeSearch() {
 
         const query = document
-
             .getElementById("searchInput")
+            .value
+            .trim();
 
-            .value;
+        if (!query) {
+
+            document.getElementById("results").innerHTML = `
+
+                <div class="results-card">
+
+                    <p>Please enter a search term.</p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
 
         const results = Search.search(
 
