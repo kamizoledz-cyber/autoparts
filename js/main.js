@@ -1,14 +1,6 @@
 const App = {
 
-    data: {
-        manufacturers: [],
-        models: [],
-        generations: [],
-        vehicleVersions: [],
-        categories: [],
-        parts: [],
-        compatibility: []
-    },
+    data: {},
 
     async init() {
 
@@ -16,43 +8,13 @@ const App = {
 
             this.showLoading();
 
-            const [
-
-                manufacturers,
-                models,
-                generations,
-                vehicleVersions,
-                categories,
-                parts,
-                compatibility
-
-            ] = await Promise.all([
-
-                Data.manufacturers(),
-                Data.models(),
-                Data.generations(),
-                Data.vehicleVersions(),
-                Data.categories(),
-                Data.parts(),
-                Data.compatibility()
-
-            ]);
-
-            this.data.manufacturers = manufacturers;
-            this.data.models = models;
-            this.data.generations = generations;
-            this.data.vehicleVersions = vehicleVersions;
-            this.data.categories = categories;
-            this.data.parts = parts;
-            this.data.compatibility = compatibility;
+            this.data.manufacturers = await Data.manufacturers();
+            this.data.models = await Data.models();
+            this.data.parts = await Data.parts();
 
             this.render();
 
-        }
-
-        catch (error) {
-
-            console.error(error);
+        } catch (error) {
 
             document.getElementById("app").innerHTML = `
                 <div class="results-card">
@@ -78,6 +40,7 @@ const App = {
     render() {
 
         document.getElementById("app").innerHTML = `
+
 <header class="header">
 
 <div class="logo">
@@ -89,13 +52,9 @@ const App = {
 
 <section class="hero">
 
-<h1>
-Find Any Auto Part Worldwide
-</h1>
+<h1>Find Any Auto Part Worldwide</h1>
 
-<p>
-Search Manufacturers, Models and Parts
-</p>
+<p>Search Manufacturers, Models and Parts</p>
 
 <div class="search-box">
 
@@ -112,15 +71,20 @@ placeholder="Toyota, Corolla, Oil Filter...">
 <div id="results"></div>
 
 </section>
+
 `;
 
         document
             .getElementById("searchBtn")
             .addEventListener("click", () => {
 
-                alert(
-                    "Search Engine will be connected in the next Sprint."
-                );
+                const query = document
+                    .getElementById("searchInput")
+                    .value;
+
+                const results = Search.search(query, this.data);
+
+                Renderer.render(results);
 
             });
 
