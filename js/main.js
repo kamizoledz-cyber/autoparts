@@ -13,15 +13,27 @@ const App = {
 
                 manufacturers,
                 models,
+                generations,
+                vehicleVersions,
+                engines,
+                transmissions,
+                markets,
+                categories,
                 parts,
-                categories
+                compatibility
 
             ] = await Promise.all([
 
                 Data.manufacturers(),
                 Data.models(),
+                Data.generations(),
+                Data.vehicleVersions(),
+                Data.engines(),
+                Data.transmissions(),
+                Data.markets(),
+                Data.categories(),
                 Data.parts(),
-                Data.categories()
+                Data.compatibility()
 
             ]);
 
@@ -29,14 +41,22 @@ const App = {
 
                 manufacturers,
                 models,
+                generations,
+                vehicleVersions,
+                engines,
+                transmissions,
+                markets,
+                categories,
                 parts,
-                categories
+                compatibility
 
             };
 
             this.render();
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(error);
 
@@ -44,7 +64,7 @@ const App = {
 
                 <div class="results-card">
 
-                    <h2>⚠️ Loading Error</h2>
+                    <h2>Loading Error</h2>
 
                     <p>${error.message}</p>
 
@@ -88,15 +108,25 @@ const App = {
 
 <section class="hero">
 
-<h1>Find Any Auto Part Worldwide</h1>
+<h1>
 
-<p>Search Manufacturers, Models and Parts</p>
+Find Any Auto Part Worldwide
+
+</h1>
+
+<p>
+
+Search by Manufacturer, Model, Generation or Engine
+
+</p>
 
 <div class="search-box">
 
 <input
+
 id="searchInput"
-placeholder="Toyota, Corolla, Oil Filter...">
+
+placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
 <button id="searchBtn">
 
@@ -112,13 +142,13 @@ placeholder="Toyota, Corolla, Oil Filter...">
 
 `;
 
-        const input = document.getElementById("searchInput");
-
         const button = document.getElementById("searchBtn");
+
+        const input = document.getElementById("searchInput");
 
         button.addEventListener("click", () => {
 
-            this.runSearch();
+            this.executeSearch();
 
         });
 
@@ -126,7 +156,7 @@ placeholder="Toyota, Corolla, Oil Filter...">
 
             if (event.key === "Enter") {
 
-                this.runSearch();
+                this.executeSearch();
 
             }
 
@@ -134,10 +164,12 @@ placeholder="Toyota, Corolla, Oil Filter...">
 
     },
 
-    runSearch() {
+    executeSearch() {
 
         const query = document
+
             .getElementById("searchInput")
+
             .value;
 
         const results = Search.search(
