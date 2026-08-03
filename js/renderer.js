@@ -28,15 +28,11 @@ const Renderer = (() => {
 <div class="vehicle-header">
 
 <h2>
-
 🚗 ${result.manufacturer?.name ?? ""} ${result.model?.name ?? ""}
-
 </h2>
 
 <p>
-
 ${result.generation?.name ?? "-"}
-
 </p>
 
 </div>
@@ -73,7 +69,11 @@ result.parts.map(item => `
 
 <div class="part-card">
 
-<h4>
+<h4 class="part-title"
+
+data-part='${JSON.stringify(item).replace(/'/g,"&#39;")}'
+
+>
 
 🔧 ${item.part.name}
 
@@ -109,6 +109,16 @@ ${item.part.status}
 
 </p>
 
+<button class="details-btn"
+
+data-part='${JSON.stringify(item).replace(/'/g,"&#39;")}'
+
+>
+
+View Details
+
+</button>
+
 </div>
 
 `).join("")
@@ -124,6 +134,30 @@ ${item.part.status}
 </div>
 
 `;
+
+        });
+
+        bindDetailsButtons();
+
+    }
+
+    function bindDetailsButtons(){
+
+        document.querySelectorAll(".details-btn")
+
+        .forEach(button=>{
+
+            button.addEventListener("click",()=>{
+
+                const part = JSON.parse(
+
+                    button.dataset.part
+
+                );
+
+                Details.showPart(part);
+
+            });
 
         });
 
