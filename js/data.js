@@ -1,3 +1,4 @@
+
 const Data = (() => {
 
     const cache = {};
@@ -8,7 +9,7 @@ const Data = (() => {
             return cache[file];
         }
 
-        const response = await fetch(`data/${file}.json`);
+        const response = await fetch(`${file}.json`);
 
         if (!response.ok) {
             throw new Error(`Cannot load ${file}.json`);
