@@ -1,18 +1,17 @@
-
 [
   {
-    "vehicleId":1,
-    "partId":1,
-    "note":"Original equipment match"
+    "vehicleVersionId": "PMX-VEH-000001",
+    "partId": "PMX-PRT-000001",
+    "note": "Original equipment match"
   },
   {
-    "vehicleId":2,
-    "partId":2,
-    "note":"Compatible replacement"
+    "vehicleVersionId": "PMX-VEH-000002",
+    "partId": "PMX-PRT-000002",
+    "note": "Compatible replacement"
   },
   {
-    "vehicleId":3,
-    "partId":3,
-    "note":"Original equipment match"
+    "vehicleVersionId": "PMX-VEH-000003",
+    "partId": "PMX-PRT-000003",
+    "note": "Original equipment match"
   }
 ]
