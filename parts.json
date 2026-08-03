@@ -1,35 +1,7 @@
 [
   {
-    "id":1,
-    "brand":"Toyota",
-    "model":"Corolla",
-    "year":"2020",
-    "part":"Oil Filter",
-    "oem":"90915-YZZF2",
-    "categoryId":2
-    
-  },
-  {
-    "id":2,
-    "brand":"BMW",
-    "model":"320i",
-    "year":"2019",
-    "part":"Air Filter",
-    "oem":"13717597587"
-  },
-  {
-    "id":3,
-    "brand":"Mercedes",
-    "model":"C-Class",
-    "year":"2021",
-    "part":"Brake Pad",
-    "oem":"A0004208300"
-  }
-]
-[
-  {
     "id": "PMX-PRT-000001",
-    "categoryId": 2,
+    "categoryId": "PMX-CAT-000002",
     "manufacturerId": "PMX-MFR-000001",
     "name": "Engine Oil Filter",
     "description": "Toyota Genuine Engine Oil Filter",
@@ -37,7 +9,7 @@
   },
   {
     "id": "PMX-PRT-000002",
-    "categoryId": 2,
+    "categoryId": "PMX-CAT-000002",
     "manufacturerId": "PMX-MFR-000001",
     "name": "Engine Air Filter",
     "description": "Toyota Genuine Engine Air Filter",
@@ -45,7 +17,7 @@
   },
   {
     "id": "PMX-PRT-000003",
-    "categoryId": 2,
+    "categoryId": "PMX-CAT-000002",
     "manufacturerId": "PMX-MFR-000001",
     "name": "Cabin Air Filter",
     "description": "Toyota Genuine Cabin Air Filter",
