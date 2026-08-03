@@ -1,48 +1,59 @@
 const CompatibilityEngine = (() => {
 
+    function createMap(array) {
+
+        const map = new Map();
+
+        array.forEach(item => {
+
+            map.set(item.id, item);
+
+        });
+
+        return map;
+
+    }
+
     function getParts(vehicleVersionId, data) {
 
-        const links = data.compatibility.filter(
+        const partsMap = createMap(data.parts);
+        const categoriesMap = createMap(data.categories);
+        const manufacturersMap = createMap(data.manufacturers);
 
-            item => item.vehicleVersionId === vehicleVersionId
+        const uniqueParts = new Set();
 
-        );
+        const results = [];
 
-        return links.map(link => {
+        data.compatibility.forEach(link => {
 
-            const part = data.parts.find(
+            if (link.vehicleVersionId !== vehicleVersionId)
+                return;
 
-                item => item.id === link.partId
+            if (uniqueParts.has(link.partId))
+                return;
 
-            );
+            uniqueParts.add(link.partId);
 
-            if (!part) return null;
+            const part = partsMap.get(link.partId);
 
-            const category = data.categories.find(
+            if (!part)
+                return;
 
-                item => item.id === part.categoryId
-
-            );
-
-            const manufacturer = data.manufacturers.find(
-
-                item => item.id === part.manufacturerId
-
-            );
-
-            return {
+            results.push({
 
                 compatibility: link,
 
                 part,
 
-                category,
+                category: categoriesMap.get(part.categoryId),
 
-                manufacturer
+                manufacturer: manufacturersMap.get(part.manufacturerId)
 
-            };
+            });
 
-        }).filter(Boolean);
+        });
+
+        return results;
 
     }
 
