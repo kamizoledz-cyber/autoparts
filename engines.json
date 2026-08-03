@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "id": "PMX-ENG-000001",
+    "code": "M20A-FKS",
+    "manufacturerId": "PMX-MFR-000001",
+    "displacement": 2.0,
+    "fuelType": "Petrol",
+    "cylinders": 4,
+    "horsepower": 169,
+    "torqueNm": 205,
+    "status": "Active"
+  },
+  {
+    "id": "PMX-ENG-000002",
+    "code": "2ZR-FE",
+    "manufacturerId": "PMX-MFR-000001",
+    "displacement": 1.8,
+    "fuelType": "Petrol",
+    "cylinders": 4,
+    "horsepower": 139,
+    "torqueNm": 173,
+    "status": "Active"
+  },
+  {
+    "id": "PMX-ENG-000003",
+    "code": "2ZR-FXE",
+    "manufacturerId": "PMX-MFR-000001",
+    "displacement": 1.8,
+    "fuelType": "Hybrid",
+    "cylinders": 4,
+    "horsepower": 121,
+    "torqueNm": 142,
+    "status": "Active"
+  },
+  {
+    "id": "PMX-ENG-000004",
+    "code": "A25A-FKS",
+    "manufacturerId": "PMX-MFR-000001",
+    "displacement": 2.5,
+    "fuelType": "Petrol",
+    "cylinders": 4,
+    "horsepower": 203,
+    "torqueNm": 250,
+    "status": "Active"
+  },
+  {
+    "id": "PMX-ENG-000005",
+    "code": "A25A-FXS",
+    "manufacturerId": "PMX-MFR-000001",
+    "displacement": 2.5,
+    "fuelType": "Hybrid",
+    "cylinders": 4,
+    "horsepower": 176,
+    "torqueNm": 221,
+    "status": "Active"
+  }
+]
