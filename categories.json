@@ -1,27 +1,32 @@
 [
   {
-    "id":1,
-    "name":"Engine",
-    "description":"Engine related parts"
+    "id": "PMX-CAT-000001",
+    "name": "Engine",
+    "description": "Engine related parts",
+    "status": "Active"
   },
   {
-    "id":2,
-    "name":"Filtration",
-    "description":"Oil, Air and Fuel filters"
+    "id": "PMX-CAT-000002",
+    "name": "Filtration",
+    "description": "Oil, Air and Fuel filters",
+    "status": "Active"
   },
   {
-    "id":3,
-    "name":"Brakes",
-    "description":"Brake system components"
+    "id": "PMX-CAT-000003",
+    "name": "Brakes",
+    "description": "Brake system components",
+    "status": "Active"
   },
   {
-    "id":4,
-    "name":"Suspension",
-    "description":"Suspension and steering parts"
+    "id": "PMX-CAT-000004",
+    "name": "Suspension",
+    "description": "Suspension and steering parts",
+    "status": "Active"
   },
   {
-    "id":5,
-    "name":"Electrical",
-    "description":"Sensors and electrical components"
+    "id": "PMX-CAT-000005",
+    "name": "Electrical",
+    "description": "Sensors and electrical components",
+    "status": "Active"
   }
 ]
