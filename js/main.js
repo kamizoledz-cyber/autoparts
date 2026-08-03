@@ -1,3 +1,4 @@
+
 const App = {
 
     data: {},
@@ -8,19 +9,47 @@ const App = {
 
             this.showLoading();
 
-            this.data.manufacturers = await Data.manufacturers();
-            this.data.models = await Data.models();
-            this.data.parts = await Data.parts();
+            const [
+
+                manufacturers,
+                models,
+                parts,
+                categories
+
+            ] = await Promise.all([
+
+                Data.manufacturers(),
+                Data.models(),
+                Data.parts(),
+                Data.categories()
+
+            ]);
+
+            this.data = {
+
+                manufacturers,
+                models,
+                parts,
+                categories
+
+            };
 
             this.render();
 
         } catch (error) {
 
+            console.error(error);
+
             document.getElementById("app").innerHTML = `
+
                 <div class="results-card">
+
                     <h2>⚠️ Loading Error</h2>
+
                     <p>${error.message}</p>
+
                 </div>
+
             `;
 
         }
@@ -30,9 +59,13 @@ const App = {
     showLoading() {
 
         document.getElementById("app").innerHTML = `
+
             <div class="results-card">
+
                 <h2>Loading...</h2>
+
             </div>
+
         `;
 
     },
@@ -44,8 +77,11 @@ const App = {
 <header class="header">
 
 <div class="logo">
+
 🚗 PartMatrix
+
 <span>Global Auto Parts & Compatibility Platform</span>
+
 </div>
 
 </header>
@@ -63,7 +99,9 @@ id="searchInput"
 placeholder="Toyota, Corolla, Oil Filter...">
 
 <button id="searchBtn">
+
 🔍 Search
+
 </button>
 
 </div>
@@ -74,19 +112,43 @@ placeholder="Toyota, Corolla, Oil Filter...">
 
 `;
 
-        document
-            .getElementById("searchBtn")
-            .addEventListener("click", () => {
+        const input = document.getElementById("searchInput");
 
-                const query = document
-                    .getElementById("searchInput")
-                    .value;
+        const button = document.getElementById("searchBtn");
 
-                const results = Search.search(query, this.data);
+        button.addEventListener("click", () => {
 
-                Renderer.render(results);
+            this.runSearch();
 
-            });
+        });
+
+        input.addEventListener("keydown", event => {
+
+            if (event.key === "Enter") {
+
+                this.runSearch();
+
+            }
+
+        });
+
+    },
+
+    runSearch() {
+
+        const query = document
+            .getElementById("searchInput")
+            .value;
+
+        const results = Search.search(
+
+            query,
+
+            this.data
+
+        );
+
+        Renderer.render(results);
 
     }
 
