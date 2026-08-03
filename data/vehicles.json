@@ -1,0 +1,23 @@
+[
+  {
+    "id":1,
+    "brand":"Toyota",
+    "model":"Corolla",
+    "year":"2020",
+    "engine":"1.8 Petrol"
+  },
+  {
+    "id":2,
+    "brand":"BMW",
+    "model":"320i",
+    "year":"2019",
+    "engine":"2.0 Turbo"
+  },
+  {
+    "id":3,
+    "brand":"Mercedes",
+    "model":"C-Class",
+    "year":"2021",
+    "engine":"C200"
+  }
+]
