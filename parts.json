@@ -26,3 +26,29 @@
     "oem":"A0004208300"
   }
 ]
+[
+  {
+    "id": "PMX-PRT-000001",
+    "categoryId": 2,
+    "manufacturerId": "PMX-MFR-000001",
+    "name": "Engine Oil Filter",
+    "description": "Toyota Genuine Engine Oil Filter",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-PRT-000002",
+    "categoryId": 2,
+    "manufacturerId": "PMX-MFR-000001",
+    "name": "Engine Air Filter",
+    "description": "Toyota Genuine Engine Air Filter",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-PRT-000003",
+    "categoryId": 2,
+    "manufacturerId": "PMX-MFR-000001",
+    "name": "Cabin Air Filter",
+    "description": "Toyota Genuine Cabin Air Filter",
+    "status": "Active"
+  }
+]
