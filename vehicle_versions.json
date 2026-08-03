@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "id": "PMX-VEH-000001",
+    "generationId": "PMX-GEN-000001",
+    "engineId": "PMX-ENG-000001",
+    "transmissionId": "PMX-TRN-000001",
+    "marketId": "PMX-MKT-000002",
+    "productionYear": 2024,
+    "trim": "Active",
+    "driveType": "FWD",
+    "doors": 4,
+    "bodyType": "Sedan",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-VEH-000002",
+    "generationId": "PMX-GEN-000001",
+    "engineId": "PMX-ENG-000002",
+    "transmissionId": "PMX-TRN-000001",
+    "marketId": "PMX-MKT-000004",
+    "productionYear": 2023,
+    "trim": "XLi",
+    "driveType": "FWD",
+    "doors": 4,
+    "bodyType": "Sedan",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-VEH-000003",
+    "generationId": "PMX-GEN-000001",
+    "engineId": "PMX-ENG-000003",
+    "transmissionId": "PMX-TRN-000005",
+    "marketId": "PMX-MKT-000002",
+    "productionYear": 2024,
+    "trim": "Hybrid",
+    "driveType": "FWD",
+    "doors": 4,
+    "bodyType": "Sedan",
+    "status": "Active"
+  }
+]
