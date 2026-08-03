@@ -56,7 +56,7 @@ Promise.all([
 
 fetch("parts.json").then(r => r.json()),
 
-fetch("vehicles.json").then(r => r.json()),
+fetch("data/vehicles.json").then(r => r.json()),
 
 fetch("manufacturers.json").then(r => r.json()),
 
