@@ -6,95 +6,108 @@ const Renderer = (() => {
 
         box.innerHTML = "";
 
-        results.manufacturers.forEach(item => {
-
-            box.innerHTML += `
-
-<div class="results-card">
-
-<h3>🏭 ${item.name}</h3>
-
-<p>Country: ${item.country}</p>
-
-</div>
-
-`;
-
-        });
-
-        results.models.forEach(item => {
-
-            box.innerHTML += `
-
-<div class="results-card">
-
-<h3>🚗 ${item.name}</h3>
-
-<p>Segment: ${item.segment}</p>
-
-<p>Production: ${item.productionStart} - ${item.productionEnd ?? "Present"}</p>
-
-</div>
-
-`;
-
-        });
-
-        results.parts.forEach(item => {
-
-            const category = App.data.categories.find(
-
-                c => c.id === item.categoryId
-
-            );
-
-            const manufacturer = App.data.manufacturers.find(
-
-                m => m.id === item.manufacturerId
-
-            );
-
-            box.innerHTML += `
-
-<div class="results-card">
-
-<h3>🔧 ${item.name}</h3>
-
-<p>${item.description}</p>
-
-<p><strong>Category:</strong> ${category ? category.name : "-"}</p>
-
-<p><strong>Manufacturer:</strong> ${manufacturer ? manufacturer.name : "-"}</p>
-
-<p><strong>Status:</strong> ${item.status}</p>
-
-</div>
-
-`;
-
-        });
-
-        if (
-
-            results.manufacturers.length === 0 &&
-            results.models.length === 0 &&
-            results.parts.length === 0
-
-        ) {
+        if (!results.length) {
 
             box.innerHTML = `
+                <div class="results-card">
+                    <h3>No Results Found</h3>
+                    <p>Try another search.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        results.forEach(result => {
+
+            box.innerHTML += `
 
 <div class="results-card">
 
-<h3>No Results</h3>
+<h2>
+🚗 ${result.manufacturer?.name ?? ""}
+${result.model?.name ?? ""}
+</h2>
 
-<p>Try another search.</p>
+<p>
+
+<b>Generation:</b>
+${result.generation?.name ?? "-"}
+
+</p>
+
+<p>
+
+<b>Engine:</b>
+${result.engine?.code ?? "-"}
+
+</p>
+
+<p>
+
+<b>Year:</b>
+${result.vehicle.productionYear}
+
+</p>
+
+<p>
+
+<b>Body:</b>
+${result.vehicle.bodyType}
+
+</p>
+
+<p>
+
+<b>Trim:</b>
+${result.vehicle.trim}
+
+</p>
+
+<hr>
+
+<h3>Compatible Parts</h3>
+
+${
+result.parts.length
+
+?
+
+result.parts.map(item => `
+
+<div class="part-card">
+
+<b>${item.part.name}</b>
+
+<br>
+
+${item.part.description}
+
+<br>
+
+Category:
+${item.category?.name ?? "-"}
+
+<br>
+
+Manufacturer:
+${item.manufacturer?.name ?? "-"}
+
+</div>
+
+`).join("")
+
+:
+
+"<p>No compatible parts.</p>"
+
+}
 
 </div>
 
 `;
 
-        }
+        });
 
     }
 
