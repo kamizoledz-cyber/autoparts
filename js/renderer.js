@@ -9,13 +9,14 @@ const Renderer = (() => {
         if (!results.length) {
 
             box.innerHTML = `
-                <div class="results-card">
-                    <h3>No Results Found</h3>
-                    <p>Try another search.</p>
+                <div class="results-card empty-result">
+                    <h2>🔍 No Results Found</h2>
+                    <p>Try another keyword or vehicle.</p>
                 </div>
             `;
 
             return;
+
         }
 
         results.forEach(result => {
@@ -24,51 +25,46 @@ const Renderer = (() => {
 
 <div class="results-card">
 
+<div class="vehicle-header">
+
 <h2>
-🚗 ${result.manufacturer?.name ?? ""}
-${result.model?.name ?? ""}
+
+🚗 ${result.manufacturer?.name ?? ""} ${result.model?.name ?? ""}
+
 </h2>
 
 <p>
 
-<b>Generation:</b>
 ${result.generation?.name ?? "-"}
 
 </p>
 
-<p>
+</div>
 
-<b>Engine:</b>
-${result.engine?.code ?? "-"}
+<div class="vehicle-info">
 
-</p>
+<p><strong>📅 Year:</strong> ${result.vehicle.productionYear}</p>
 
-<p>
+<p><strong>⚙ Engine:</strong> ${result.engine?.code ?? "-"}</p>
 
-<b>Year:</b>
-${result.vehicle.productionYear}
+<p><strong>🚘 Body:</strong> ${result.vehicle.bodyType}</p>
 
-</p>
+<p><strong>🏷 Trim:</strong> ${result.vehicle.trim}</p>
 
-<p>
+<p><strong>🌍 Market:</strong> ${result.market?.name ?? "-"}</p>
 
-<b>Body:</b>
-${result.vehicle.bodyType}
+<p><strong>🔄 Transmission:</strong> ${result.transmission?.name ?? "-"}</p>
 
-</p>
-
-<p>
-
-<b>Trim:</b>
-${result.vehicle.trim}
-
-</p>
+</div>
 
 <hr>
 
-<h3>Compatible Parts</h3>
+<h3>Compatible Parts (${result.parts.length})</h3>
+
+<div class="parts-list">
 
 ${
+
 result.parts.length
 
 ?
@@ -77,21 +73,41 @@ result.parts.map(item => `
 
 <div class="part-card">
 
-<b>${item.part.name}</b>
+<h4>
 
-<br>
+🔧 ${item.part.name}
+
+</h4>
+
+<p>
 
 ${item.part.description}
 
-<br>
+</p>
 
-Category:
+<p>
+
+<strong>Category:</strong>
+
 ${item.category?.name ?? "-"}
 
-<br>
+</p>
 
-Manufacturer:
+<p>
+
+<strong>Manufacturer:</strong>
+
 ${item.manufacturer?.name ?? "-"}
+
+</p>
+
+<p>
+
+<strong>Status:</strong>
+
+${item.part.status}
+
+</p>
 
 </div>
 
@@ -99,9 +115,11 @@ ${item.manufacturer?.name ?? "-"}
 
 :
 
-"<p>No compatible parts.</p>"
+`<p>No compatible parts.</p>`
 
 }
+
+</div>
 
 </div>
 
