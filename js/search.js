@@ -1,23 +1,27 @@
 const Search = (() => {
 
-    function contains(text, value) {
+    function normalize(text) {
 
-        if (!text) return false;
+        if (!text) return "";
 
         return text
             .toString()
-            .toLowerCase()
-            .includes(value);
+            .trim()
+            .toLowerCase();
+
+    }
+
+    function contains(text, query) {
+
+        return normalize(text).includes(query);
 
     }
 
     function search(query, data) {
 
-        const value = query
-            .trim()
-            .toLowerCase();
+        query = normalize(query);
 
-        if (!value) {
+        if (!query) {
 
             return {
 
@@ -31,34 +35,29 @@ const Search = (() => {
 
         const manufacturers = data.manufacturers.filter(item =>
 
-            contains(item.name, value) ||
-
-            contains(item.country, value)
+            contains(item.name, query) ||
+            contains(item.country, query)
 
         );
 
         const models = data.models.filter(item =>
 
-            contains(item.name, value) ||
-
-            contains(item.segment, value)
+            contains(item.name, query) ||
+            contains(item.segment, query)
 
         );
 
         const parts = data.parts.filter(item =>
 
-            contains(item.name, value) ||
-
-            contains(item.description, value)
+            contains(item.name, query) ||
+            contains(item.description, query)
 
         );
 
         return {
 
             manufacturers,
-
             models,
-
             parts
 
         };
