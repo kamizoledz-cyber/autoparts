@@ -1,40 +1,40 @@
 const VehicleEngine = (() => {
 
+    function createMap(array) {
+
+        const map = new Map();
+
+        array.forEach(item => {
+
+            map.set(item.id, item);
+
+        });
+
+        return map;
+
+    }
+
     function resolve(vehicleVersionId, data) {
 
-        const vehicle = data.vehicleVersions.find(
-            item => item.id === vehicleVersionId
-        );
+        const vehicleVersions = createMap(data.vehicleVersions);
+        const generations = createMap(data.generations);
+        const models = createMap(data.models);
+        const manufacturers = createMap(data.manufacturers);
+        const engines = createMap(data.engines);
+        const transmissions = createMap(data.transmissions);
+        const markets = createMap(data.markets);
+
+        const vehicle = vehicleVersions.get(vehicleVersionId);
 
         if (!vehicle) return null;
 
-        const generation = data.generations.find(
-            item => item.id === vehicle.generationId
-        );
+        const generation = generations.get(vehicle.generationId);
 
         if (!generation) return null;
 
-        const model = data.models.find(
-            item => item.id === generation.modelId
-        );
+        const model = models.get(generation.modelId);
 
         if (!model) return null;
-
-        const manufacturer = data.manufacturers.find(
-            item => item.id === model.manufacturerId
-        );
-
-        const engine = data.engines.find(
-            item => item.id === vehicle.engineId
-        );
-
-        const transmission = data.transmissions.find(
-            item => item.id === vehicle.transmissionId
-        );
-
-        const market = data.markets.find(
-            item => item.id === vehicle.marketId
-        );
 
         return {
 
@@ -44,13 +44,13 @@ const VehicleEngine = (() => {
 
             model,
 
-            manufacturer,
+            manufacturer: manufacturers.get(model.manufacturerId),
 
-            engine,
+            engine: engines.get(vehicle.engineId),
 
-            transmission,
+            transmission: transmissions.get(vehicle.transmissionId),
 
-            market
+            market: markets.get(vehicle.marketId)
 
         };
 
