@@ -23,3 +23,28 @@
 18. Suppliers
 19. Users
 20. APIKeys
+21. 
+# Manufacturers
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Unique manufacturer ID |
+| name | String | Manufacturer name |
+| country | String | Country of origin |
+| founded_year | Integer | Company foundation year |
+| official_website | String | Official website |
+| logo | String | Logo filename or URL |
+| status | String | Active / Inactive |
+
+---
+
+# Models
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Unique model ID |
+| manufacturer_id | Integer | Linked manufacturer |
+| name | String | Model name |
+| first_year | Integer | Production start |
+| last_year | Integer | Production end |
+| segment | String | Vehicle segment |
