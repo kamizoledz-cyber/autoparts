@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "PMX-TRN-000001",
+    "name": "CVT",
+    "type": "Automatic",
+    "gears": null,
+    "manufacturer": "Aisin",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-TRN-000002",
+    "name": "6AT",
+    "type": "Automatic",
+    "gears": 6,
+    "manufacturer": "Aisin",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-TRN-000003",
+    "name": "8AT",
+    "type": "Automatic",
+    "gears": 8,
+    "manufacturer": "Aisin",
+    "status": "Active"
+  },
+  {
+    "id": "PMX-TRN-000004",
+    "name": "6MT",
+    "type": "Manual",
+    "gears": 6,
+    "manufacturer": null,
+    "status": "Active"
+  },
+  {
+    "id": "PMX-TRN-000005",
+    "name": "eCVT",
+    "type": "Hybrid",
+    "gears": null,
+    "manufacturer": "Toyota",
+    "status": "Active"
+  }
+]
