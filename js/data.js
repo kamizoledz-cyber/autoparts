@@ -1,7 +1,8 @@
-
 const Data = (() => {
 
     const cache = {};
+
+    const indexes = {};
 
     async function load(file) {
 
@@ -20,6 +21,47 @@ const Data = (() => {
         cache[file] = json;
 
         return json;
+
+    }
+
+    function createIndex(name, array) {
+
+        indexes[name] = new Map();
+
+        array.forEach(item => {
+
+            indexes[name].set(item.id, item);
+
+        });
+
+    }
+
+    async function buildIndexes() {
+
+        createIndex("manufacturers", await load("manufacturers"));
+
+        createIndex("models", await load("models"));
+
+        createIndex("generations", await load("generations"));
+
+        createIndex("vehicleVersions", await load("vehicle_versions"));
+
+        createIndex("engines", await load("engines"));
+
+        createIndex("transmissions", await load("transmissions"));
+
+        createIndex("markets", await load("markets"));
+
+        createIndex("categories", await load("categories"));
+
+        createIndex("parts", await load("parts"));
+
+    }
+
+    function getIndex(name) {
+
+        return indexes[name];
+
     }
 
     return {
@@ -46,7 +88,11 @@ const Data = (() => {
 
         vehicles: () => load("vehicles"),
 
-        config: () => load("config")
+        config: () => load("config"),
+
+        buildIndexes,
+
+        getIndex
 
     };
 
