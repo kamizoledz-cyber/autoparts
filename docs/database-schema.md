@@ -83,3 +83,41 @@
 | name | String | CVT / AT / MT / DSG |
 | gears | Integer | Number of gears |
 | manufacturer | String | Aisin / ZF / Getrag |
+
+# Parts
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Internal PartMatrix ID |
+| category_id | Integer | Linked category |
+| manufacturer_id | Integer | OEM manufacturer |
+| name | String | Part name |
+| description | Text | Description |
+| oem_number | String | Original OEM number |
+| superseded_oem | String | Replaced OEM number |
+| aftermarket_number | String | Aftermarket reference |
+| weight | Decimal | Weight in kg |
+| length | Decimal | Length |
+| width | Decimal | Width |
+| height | Decimal | Height |
+| material | String | Main material |
+| warranty | String | Warranty |
+| origin_country | String | Country of origin |
+| barcode | String | Barcode |
+| image | String | Image path |
+| datasheet | String | Technical document |
+| installation_time | Integer | Minutes |
+| difficulty | String | Easy / Medium / Hard |
+| status | String | Active / Discontinued |
+
+---
+
+# Compatibility
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Compatibility ID |
+| vehicle_version_id | Integer | Linked vehicle version |
+| part_id | Integer | Linked part |
+| quantity | Integer | Quantity required |
+| notes | Text | Notes |
