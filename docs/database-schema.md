@@ -121,3 +121,36 @@
 | part_id | Integer | Linked part |
 | quantity | Integer | Quantity required |
 | notes | Text | Notes |
+# OEM Numbers
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | OEM ID |
+| part_id | Integer | Linked Part |
+| oem_number | String | OEM Number |
+| manufacturer | String | OEM Manufacturer |
+| market | String | Market |
+| status | String | Active / Superseded |
+
+---
+
+# Aftermarket Brands
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Brand ID |
+| name | String | Brand Name |
+| country | String | Country |
+| website | String | Website |
+
+---
+
+# Aftermarket Parts
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | Integer | Record ID |
+| part_id | Integer | Original Part |
+| brand_id | Integer | Aftermarket Brand |
+| reference_number | String | Brand Reference |
+| quality | String | OEM / OEM Equivalent / Economy |
