@@ -2,51 +2,81 @@ const AppState = (() => {
 
     const state = {
 
-        page: "home",
-
-        lastResults: [],
+        currentView: "search",
 
         currentVehicle: null,
 
         currentPart: null,
 
-        currentManufacturer: null
+        lastResults: []
 
     };
 
-    function get(key) {
+    function setView(view) {
 
-        return state[key];
-
-    }
-
-    function set(key, value) {
-
-        state[key] = value;
+        state.currentView = view;
 
     }
 
-    function reset() {
+    function getView() {
 
-        state.page = "home";
+        return state.currentView;
 
-        state.lastResults = [];
+    }
 
-        state.currentVehicle = null;
+    function setVehicle(id) {
 
-        state.currentPart = null;
+        state.currentVehicle = id;
 
-        state.currentManufacturer = null;
+    }
+
+    function getVehicle() {
+
+        return state.currentVehicle;
+
+    }
+
+    function setPart(id) {
+
+        state.currentPart = id;
+
+    }
+
+    function getPart() {
+
+        return state.currentPart;
+
+    }
+
+    function setResults(results) {
+
+        state.lastResults = results;
+
+    }
+
+    function getResults() {
+
+        return state.lastResults;
 
     }
 
     return {
 
-        get,
+        setView,
 
-        set,
+        getView,
 
-        reset
+        setVehicle,
+
+        getVehicle,
+
+        setPart,
+
+        getPart,
+
+        setResults,
+
+        getResults
 
     };
 
