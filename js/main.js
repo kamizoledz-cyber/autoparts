@@ -2,7 +2,7 @@ const App = {
 
     data: {},
 
-    lastResults: [],
+    
 
     async init() {
 
@@ -176,7 +176,7 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
         );
 
-        this.lastResults = results;
+        AppState.setResults(results);
 
         Renderer.render(results);
 
