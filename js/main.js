@@ -1,8 +1,9 @@
-
 const App = {
 
     data: {},
+
     lastResults: [],
+
     async init() {
 
         try {
@@ -28,7 +29,9 @@ const App = {
 
             this.bindEvents();
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(error);
 
@@ -54,7 +57,7 @@ const App = {
 
             <div class="results-card">
 
-                <h2>Loading...</h2>
+                <h2>Loading PartMatrix...</h2>
 
             </div>
 
@@ -80,15 +83,26 @@ const App = {
 
 <section class="hero">
 
-<h1>Find Any Auto Part Worldwide</h1>
+<h1>
 
-<p>Search by Manufacturer, Model, Generation or Engine</p>
+Find Any Auto Part Worldwide
+
+</h1>
+
+<p>
+
+Search by Manufacturer, Model, Generation or Engine
+
+</p>
 
 <div class="search-box">
 
 <input
+
 id="searchInput"
+
 type="text"
+
 placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
 <button id="searchBtn">
@@ -119,7 +133,7 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
         });
 
-        input.addEventListener("keydown", (event) => {
+        input.addEventListener("keydown", event => {
 
             if (event.key === "Enter") {
 
@@ -142,13 +156,13 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
 
             document.getElementById("results").innerHTML = `
 
-                <div class="results-card">
+<div class="results-card">
 
-                    <p>Please enter a search term.</p>
+<p>Please enter a search term.</p>
 
-                </div>
+</div>
 
-            `;
+`;
 
             return;
 
@@ -159,8 +173,10 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
             query,
 
             this.data
-        this.lastResults = results;
+
         );
+
+        this.lastResults = results;
 
         Renderer.render(results);
 
