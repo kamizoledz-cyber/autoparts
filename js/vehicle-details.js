@@ -88,15 +88,15 @@ View Part
 
 `;
 
+        
+
         document
+.getElementById("vehicleBackBtn")
+.addEventListener("click",()=>{
 
-        .getElementById("vehicleBackBtn")
+    Renderer.render(App.lastResults);
 
-        .addEventListener("click",()=>{
-
-            location.reload();
-
-        });
+});
 
         document
 
