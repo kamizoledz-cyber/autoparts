@@ -6,7 +6,17 @@ const Router = (() => {
 
         currentView = view;
 
+        AppState.setView(view);
+
         console.log("Navigate:", view, payload);
+
+    }
+
+    function back() {
+
+        currentView = "search";
+
+        AppState.setView("search");
 
     }
 
@@ -19,6 +29,8 @@ const Router = (() => {
     return {
 
         go,
+
+        back,
 
         current
 
