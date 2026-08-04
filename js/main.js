@@ -2,7 +2,7 @@
 const App = {
 
     data: {},
-
+    lastResults: [],
     async init() {
 
         try {
@@ -159,7 +159,7 @@ placeholder="Toyota, Corolla, E210, M20A-FKS...">
             query,
 
             this.data
-
+        this.lastResults = results;
         );
 
         Renderer.render(results);
