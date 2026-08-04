@@ -19,7 +19,7 @@ const Renderer = (() => {
 
         }
 
-        results.forEach(result => {
+        results.forEach((result, index) => {
 
             box.innerHTML += `
 
@@ -28,12 +28,20 @@ const Renderer = (() => {
 <div class="vehicle-header">
 
 <h2>
+
+<a href="#"
+
+class="vehicle-link"
+
+data-index="${index}">
+
 🚗 ${result.manufacturer?.name ?? ""} ${result.model?.name ?? ""}
+
+</a>
+
 </h2>
 
-<p>
-${result.generation?.name ?? "-"}
-</p>
+<p>${result.generation?.name ?? "-"}</p>
 
 </div>
 
@@ -59,61 +67,29 @@ ${result.generation?.name ?? "-"}
 
 <div class="parts-list">
 
-${
-
-result.parts.length
-
-?
+${result.parts.length ?
 
 result.parts.map(item => `
 
 <div class="part-card">
 
-<h4 class="part-title"
-
-data-part='${JSON.stringify(item).replace(/'/g,"&#39;")}'
-
->
+<h4>
 
 🔧 ${item.part.name}
 
 </h4>
 
-<p>
+<p>${item.part.description}</p>
 
-${item.part.description}
+<p><strong>Category:</strong> ${item.category?.name ?? "-"}</p>
 
-</p>
+<p><strong>Manufacturer:</strong> ${item.manufacturer?.name ?? "-"}</p>
 
-<p>
-
-<strong>Category:</strong>
-
-${item.category?.name ?? "-"}
-
-</p>
-
-<p>
-
-<strong>Manufacturer:</strong>
-
-${item.manufacturer?.name ?? "-"}
-
-</p>
-
-<p>
-
-<strong>Status:</strong>
-
-${item.part.status}
-
-</p>
+<p><strong>Status:</strong> ${item.part.status}</p>
 
 <button class="details-btn"
 
-data-part='${JSON.stringify(item).replace(/'/g,"&#39;")}'
-
->
+data-part='${JSON.stringify(item).replace(/'/g,"&#39;")}'>
 
 View Details
 
@@ -137,23 +113,45 @@ View Details
 
         });
 
+        bindVehicleLinks(results);
+
         bindDetailsButtons();
+
+    }
+
+    function bindVehicleLinks(results){
+
+        document
+
+        .querySelectorAll(".vehicle-link")
+
+        .forEach(link=>{
+
+            link.addEventListener("click",(event)=>{
+
+                event.preventDefault();
+
+                const index = Number(link.dataset.index);
+
+                VehicleDetails.show(results[index]);
+
+            });
+
+        });
 
     }
 
     function bindDetailsButtons(){
 
-        document.querySelectorAll(".details-btn")
+        document
+
+        .querySelectorAll(".details-btn")
 
         .forEach(button=>{
 
             button.addEventListener("click",()=>{
 
-                const part = JSON.parse(
-
-                    button.dataset.part
-
-                );
+                const part = JSON.parse(button.dataset.part);
 
                 Details.showPart(part);
 
