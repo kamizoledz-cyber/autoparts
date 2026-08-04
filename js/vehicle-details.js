@@ -94,7 +94,7 @@ View Part
 .getElementById("vehicleBackBtn")
 .addEventListener("click",()=>{
 
-    Renderer.render(App.lastResults);
+    Renderer.render(AppState.getResults());
 
 });
 
